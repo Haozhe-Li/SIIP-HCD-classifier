@@ -26,7 +26,22 @@ The project is organized into five main components:
 
 ![backend](./backend.png)
 
-...
+The Backend are consist of two parts: **Preprocessing** and **Inference**.
+
+**Preprocessing**:
+
+This stage will first receive a student's progress report in multiple formats, like PDF or DOCX. It will then parse the report into Markdown text. To stay within the context limit, the system will split this text into smaller chunks using a hybrid chunking method.
+
+**Inference**:
+
+The chunked text will be fed to two separate LLMs simultaneously:
+
+1. The HCD LLM will provide a result that includes reasoning and references based on the student's description.
+
+2. The Student's HCD LLM will extract the student's HCD Labels.
+
+Next, these two results will be merged and fed into the Post Check LLM. This final LLM will compare the two inputs, perform any necessary fixes, and output the final, verified labels.
+
 
 ## Project Plan
 
