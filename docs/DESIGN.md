@@ -1,5 +1,7 @@
 # Design Proposal
 
+Haozhe Li | Zhicheng Hu
+
 Below is our initial design for this project.
 
 ## Architecture
