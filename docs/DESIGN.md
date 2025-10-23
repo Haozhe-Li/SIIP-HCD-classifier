@@ -45,40 +45,39 @@ Next, these two results will be merged and fed into the Post Check LLM. This fin
 ## What We Need
 
 **1. Annotation Rubric**  
-Create a clear, unambiguous rubric that follows the HCD framework outlined in the course proposal and the student progress report template.  
+Create a clear, unambiguous rubric that follows the HCD framework outlined in the course proposal and the student progress report template.
 
-- The rubric must define all 20 HCD subspaces (e.g., Exploration, Observation, Empathy, etc.) in precise terms.  
-- Include three example categories:  
-  - **Green** – student activity descriptions that fully match the subspace definition.  
-  - **Red** – clear examples of incorrect annotation.  
-  - **Yellow** – ambiguous cases where the description lacks enough information for a definitive judgment.  
+- The rubric must define all 20 HCD subspaces (e.g., Exploration, Observation, Empathy, etc.) in precise terms.
+- Include three example categories:
+  - **Green** – student activity descriptions that fully match the subspace definition.
+  - **Red** – clear examples of incorrect annotation.
+  - **Yellow** – ambiguous cases where the description lacks enough information for a definitive judgment.
 
 **2. Test Set**  
-Compile a test set of at least 10 correctly labeled examples that **adhere strictly to the rubric**.  
+Compile a test set of at least 10 correctly labeled examples that **adhere strictly to the rubric**.
 
-- Ensure the set is **highly consistent**.  
-- Whenever possible, have experts—such as professors or faculty staff well versed in HCD principles—label the examples.  
+- Ensure the set is **highly consistent**.
+- Whenever possible, have experts—such as professors or faculty staff well versed in HCD principles—label the examples.
 - Call this collection the **Ground Truth**; it will be used to evaluate system performance.
 
 **3. Training Set (Not Needed for now)**
 
-Create a training set for fine‑tuning the AI system.  
-- The data **should contain no overlapping examples with test set**; splits must be clearly defined.  
-- While more data is preferable, the set must still adhere strictly to the rubric above.  
+Create a training set for fine‑tuning the AI system.
+
+- The data **should contain no overlapping examples with test set**; splits must be clearly defined.
+- While more data is preferable, the set must still adhere strictly to the rubric above.
 
 A training set is **not required** at this stage, as we will first test zero‑shot prompting.
-
-
 
 ## Project Plan
 
 #### Phase 1 – Prototype & Initial Evaluation
 
-| Week | Dates        | Tasks                                                        |
-| ---- | ------------ | ------------------------------------------------------------ |
-| 1    | Oct 19–25    | • Draft initial project design<br>• Prepare design proposal & architecture diagram<br>• Set up the project repository<br>• **Annotation Rubric** |
-| 2    | Oct 26–Nov 1 | • Build backend preprocessing prototype<br>• Building test set strictly follows rubric |
-| 3    | Nov 2–8      | • Build backend LLM‑and‑output prototype<br>• Building test set strictly follows rubric |
+| Week | Dates        | Tasks                                                                                                                                                     |
+| ---- | ------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| 1    | Oct 19–25    | • Draft initial project design<br>• Prepare design proposal & architecture diagram<br>• Set up the project repository<br>• **Annotation Rubric**          |
+| 2    | Oct 26–Nov 1 | • Build backend preprocessing prototype<br>• Building test set strictly follows rubric                                                                    |
+| 3    | Nov 2–8      | • Build backend LLM‑and‑output prototype<br>• Building test set strictly follows rubric                                                                   |
 | 4    | Nov 9–15     | • Deliver Phase 1 demo<br>• Evaluate precision and accuracy, based on previous test set<br>• Discuss next steps (e.g., fine‑tuning vs. moving to Phase 3) |
 
 #### Phase 2 – Precision & Accuracy Improvements _(to be defined)_
@@ -100,33 +99,3 @@ Details will be added once we finish Phase 1
 | 10   | ...   | • …                |
 
 _(Phase 3 details will be added later.)_
-
-## Challenges
-
-We have identified several key challenges that may arise in the future.
-
-### 1. Subjectivity and Consistency
-
-The greatest risk to the project is the inherent subjectivity of LLM judgments. Even with defined assessment criteria, the model’s responses can vary, producing inconsistent results for similar content. Because LLMs are probabilistic, we cannot eliminate this variability entirely, but we can keep it within an acceptable range.
-
-**Possible solutions:**
-
-- Provide highly detailed evidence criteria in the prompt.
-- Lower Temperature in terms of hyper-parameter of LLM
-- Use few‑shot prompting techniques.
-- Teach the model a chain‑of‑thought (CoT) that guides its reasoning.
-- Agentic Design, create a ReACT agent which will reason, reflect by itself.
-- Apply supervised fine‑tuning (SFT), or combine the above methods.
-
-Each approach has its own trade‑offs, so we will experiment with different combinations, gather feedback, and adjust our strategy accordingly.
-
-### 2. LLM Context Window Limit
-
-A student’s design report can be long, and adding a prompt with a few-shot examples may exceed the LLM’s token limit.
-
-**Solution:**  
-We employ a smart chunking algorithm that splits the report into manageable segments. These chunks are processed iteratively by the downstream pipeline, preventing us from hitting the context window limit. However, chunking may further weaken evaluation consistency.
-
-### 3. Cost
-
-API calls to powerful LLMs are expensive, especially at scale. Using SFT models can increase costs by 2× or more. We will estimate the budget after completing our prototype pipeline and conducting small‑scale tests.
