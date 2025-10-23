@@ -31,6 +31,7 @@ The Backend are consist of two parts: **Preprocessing** and **Inference**.
 **Preprocessing**:
 
 This stage will first receive a student's progress report in multiple formats, like PDF or DOCX. It will then parse the report into Markdown text.
+
 **Inference**:
 
 The text will be fed to two separate LLMs simultaneously:
