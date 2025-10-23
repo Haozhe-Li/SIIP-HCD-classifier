@@ -42,17 +42,44 @@ The chunked text will be fed to two separate LLMs simultaneously:
 
 Next, these two results will be merged and fed into the Post Check LLM. This final LLM will compare the two inputs, perform any necessary fixes, and output the final, verified labels.
 
+## What We Need
+
+**1. Annotation Rubric**  
+Create a clear, unambiguous rubric that follows the HCD framework outlined in the course proposal and the student progress report template.  
+
+- The rubric must define all 20 HCD subspaces (e.g., Exploration, Observation, Empathy, etc.) in precise terms.  
+- Include three example categories:  
+  - **Green** – student activity descriptions that fully match the subspace definition.  
+  - **Red** – clear examples of incorrect annotation.  
+  - **Yellow** – ambiguous cases where the description lacks enough information for a definitive judgment.  
+
+**2. Test Set**  
+Compile a test set of at least 10 correctly labeled examples that **adhere strictly to the rubric**.  
+
+- Ensure the set is **highly consistent**.  
+- Whenever possible, have experts—such as professors or faculty staff well versed in HCD principles—label the examples.  
+- Call this collection the **Ground Truth**; it will be used to evaluate system performance.
+
+**3. Training Set (Not Needed for now)**
+
+Create a training set for fine‑tuning the AI system.  
+- The data **should contain no overlapping examples with test set**; splits must be clearly defined.  
+- While more data is preferable, the set must still adhere strictly to the rubric above.  
+
+A training set is **not required** at this stage, as we will first test zero‑shot prompting.
+
+
 
 ## Project Plan
 
 #### Phase 1 – Prototype & Initial Evaluation
 
-| Week | Dates        | Tasks                                                                                                                         |
-| ---- | ------------ | ----------------------------------------------------------------------------------------------------------------------------- |
-| 1    | Oct 19–25    | • Draft initial project design<br>• Prepare design proposal & architecture diagram<br>• Set up the project repository         |
-| 2    | Oct 26–Nov 1 | • Build backend preprocessing prototype                                                                                       |
-| 3    | Nov 2–8      | • Build backend LLM‑and‑output prototype                                                                                      |
-| 4    | Nov 9–15     | • Deliver Phase 1 demo<br>• Evaluate precision and accuracy<br>• Discuss next steps (e.g., fine‑tuning vs. moving to Phase 3) |
+| Week | Dates        | Tasks                                                        |
+| ---- | ------------ | ------------------------------------------------------------ |
+| 1    | Oct 19–25    | • Draft initial project design<br>• Prepare design proposal & architecture diagram<br>• Set up the project repository<br>• **Annotation Rubric** |
+| 2    | Oct 26–Nov 1 | • Build backend preprocessing prototype<br>• Building test set strictly follows rubric |
+| 3    | Nov 2–8      | • Build backend LLM‑and‑output prototype<br>• Building test set strictly follows rubric |
+| 4    | Nov 9–15     | • Deliver Phase 1 demo<br>• Evaluate precision and accuracy, based on previous test set<br>• Discuss next steps (e.g., fine‑tuning vs. moving to Phase 3) |
 
 #### Phase 2 – Precision & Accuracy Improvements _(to be defined)_
 
