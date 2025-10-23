@@ -30,11 +30,10 @@ The Backend are consist of two parts: **Preprocessing** and **Inference**.
 
 **Preprocessing**:
 
-This stage will first receive a student's progress report in multiple formats, like PDF or DOCX. It will then parse the report into Markdown text. To stay within the context limit, the system will split this text into smaller chunks using a hybrid chunking method.
-
+This stage will first receive a student's progress report in multiple formats, like PDF or DOCX. It will then parse the report into Markdown text.
 **Inference**:
 
-The chunked text will be fed to two separate LLMs simultaneously:
+The text will be fed to two separate LLMs simultaneously:
 
 1. The HCD LLM will provide a result that includes reasoning and references based on the student's description.
 
@@ -54,13 +53,13 @@ Create a clear, unambiguous rubric that follows the HCD framework outlined in th
   - **Yellow** – ambiguous cases where the description lacks enough information for a definitive judgment.
 
 **2. Test Set**  
-Compile a test set of at least 10 correctly labeled examples that **adhere strictly to the rubric**.
+Compile a test set of at least 30 correctly labeled examples that **adhere strictly to the rubric**.
 
 - Ensure the set is **highly consistent**.
 - Whenever possible, have experts—such as professors or faculty staff well versed in HCD principles—label the examples.
 - Call this collection the **Ground Truth**; it will be used to evaluate system performance.
 
-**3. Training Set (Not Needed for now)**
+**3. Training Set (depends on the result of Phase 1)**
 
 Create a training set for fine‑tuning the AI system.
 
