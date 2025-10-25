@@ -5,3 +5,9 @@
 This project develops an LLM‑powered automation tool to support the Strategic Instructional Innovations Program (SIIP) project: [Redesigning Design: Incorporating HCD and the 3 C's in Capstone Design Courses](https://ae3.grainger.illinois.edu/programs/siip-grants/64451).
 
 For a full design proposal and technical details, see our [design proposal](./docs/DESIGN.md).
+
+# Get Started
+
+1. Clone this repository at `https://github.com/Haozhe-Li/SIIP-HCD-classifier.git`
+2. Install dependencies at `pip install -r requirements.txt`
+3. Update your LLM API Key in .env.example file
