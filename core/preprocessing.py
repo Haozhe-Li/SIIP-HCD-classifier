@@ -13,7 +13,7 @@ from docling.document_converter import DocumentConverter, PdfFormatOption
 from dotenv import load_dotenv
 from langchain.chat_models import init_chat_model
 
-from core.data_table import ListDataTable
+from core.data_table import List_Student_HCD_Label
 from core.model_config import DEFAULT_MODEL
 from core.prompt import DATA_EXTRACTION_SYS_PROMPT
 
@@ -38,9 +38,9 @@ class PreProcessor:
         )
         self.doc_converter = doc_converter
         model = init_chat_model(DEFAULT_MODEL)
-        self.model_with_structure = model.with_structured_output(ListDataTable)
+        self.model_with_structure = model.with_structured_output(List_Student_HCD_Label)
 
-    def parse(self, file_path: str) -> str:
+    def _parse(self, file_path: str) -> str:
         """Parse a document and return its markdown text
 
         Args:
@@ -52,13 +52,13 @@ class PreProcessor:
         result = self.doc_converter.convert(file_path)
         return result.document.export_to_markdown()
 
-    def extract_table_data(self, text: str) -> ListDataTable:
+    def _extract_table_data(self, text: str) -> List_Student_HCD_Label:
         """Extract table data from the given text using LLM
 
         Args:
             text (str): The input text containing the progress report
         Returns:
-            ListDataTable: The extracted table data
+            List_Student_HCD_Label: The extracted table data
         """
         response = self.model_with_structure.invoke(
             [
@@ -71,29 +71,41 @@ class PreProcessor:
         )
         return response
 
-    def __call__(self, file_path: str) -> ListDataTable:
+    def invoke(self, file_path: str) -> List_Student_HCD_Label:
         """Process a document and extract table data
 
         Args:
             file_path (str): file path or URL to the document
 
         Returns:
-            ListDataTable: The extracted table data
+            List_Student_HCD_Label: The extracted table data
         """
-        markdown_text = self.parse(file_path)
-        table_data = self.extract_table_data(markdown_text)
+        markdown_text = self._parse(file_path)
+        table_data = self._extract_table_data(markdown_text)
         return table_data
+
+    def display_list_data_table(self, list_data_table: List_Student_HCD_Label) -> None:
+        """Display the extracted List_Student_HCD_Label in a readable format.
+
+        Args:
+            list_data_table (List_Student_HCD_Label): The extracted table data to display.
+        """
+        for idx, data_table in enumerate(list_data_table.tables):
+            print(f"Entry {idx + 1}:")
+            print(f"  Activity: {data_table.activity}")
+            print(f"  HCD Spaces: {', '.join(data_table.HCD_Spaces)}")
+            print(f"  HCD Subspaces: {', '.join(data_table.HCD_Subspaces)}")
+            print("-" * 40)
 
 
 if __name__ == "__main__":
     # Example usage
     pre_processor = PreProcessor()
-    res = pre_processor(
+    res = pre_processor.invoke(
         os.path.join(
             os.path.dirname(__file__),
             "../data/progress_report_example_1.pdf",
         )
     )
-    import pprint
 
-    pprint.pprint(res)
+    pre_processor.display_list_data_table(res)

@@ -16,14 +16,14 @@ You are a highly skilled data extraction specialist. Your task is to extract str
 Return the extracted data as a Pydantic model as follows:
 
 ```
-class ListDataTable(BaseModel):
-    tables: list[DataTable] = Field(..., description="List of extracted table data")
+class List_Student_HCD_Label(BaseModel):
+    tables: list[Student_HCD_Label] = Field(..., description="List of extracted table data")
 ```
 
-where `DataTable` is defined as:
+where `Student_HCD_Label` is defined as:
 
 ```
-class DataTable(BaseModel):
+class Student_HCD_Label(BaseModel):
     activity: str = Field(..., description="Content from the 'Activity' column")
     HCD_Spaces: list[str] = Field(..., description="List of items from the 'HCD Space(s)' column")
     HCD_Subspaces: list[str] = Field(..., description="List of items from the 'HCD Subspace(s)' column")
