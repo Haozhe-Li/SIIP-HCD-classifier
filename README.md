@@ -10,4 +10,8 @@ For a full design proposal and technical details, see our [design proposal](./do
 
 1. Clone this repository: `git clone https://github.com/Haozhe-Li/SIIP-HCD-classifier.git`
 2. Install dependencies: `pip install -r requirements.txt`
-3. Update your LLM API Key in .env.example file
+3. Update your LLM API Key in .env.example file. Change the following with the real API key:
+
+```
+OPENAI_API_KEY=your-openai-api-key-here
+```
