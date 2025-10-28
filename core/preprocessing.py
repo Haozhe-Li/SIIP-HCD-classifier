@@ -21,7 +21,7 @@ load_dotenv()
 
 
 class PreProcessor:
-    """A Preprocessor that parse documents and extract information"""
+    """A Preprocessor that parses documents and extract information"""
 
     def __init__(self) -> None:
         pipeline_options = PdfPipelineOptions()
