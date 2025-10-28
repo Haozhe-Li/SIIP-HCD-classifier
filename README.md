@@ -9,5 +9,5 @@ For a full design proposal and technical details, see our [design proposal](./do
 # Get Started
 
 1. Clone this repository: `git clone https://github.com/Haozhe-Li/SIIP-HCD-classifier.git`
-2. Install dependencies at `pip install -r requirements.txt`
+2. Install dependencies: `pip install -r requirements.txt`
 3. Update your LLM API Key in .env.example file
