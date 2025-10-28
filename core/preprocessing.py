@@ -13,7 +13,8 @@ from docling.document_converter import DocumentConverter, PdfFormatOption
 from dotenv import load_dotenv
 from langchain.chat_models import init_chat_model
 
-from core.data_table import DataTable, ListDataTable
+from core.data_table import ListDataTable
+from core.model_config import DEFAULT_MODEL
 from core.prompt import DATA_EXTRACTION_SYS_PROMPT
 
 load_dotenv()
@@ -37,7 +38,7 @@ class PreProcessor:
             }
         )
         self.doc_converter = doc_converter
-        model = init_chat_model("openai:gpt-4.1")
+        model = init_chat_model(DEFAULT_MODEL)
         self.model_with_structure = model.with_structured_output(ListDataTable)
 
     def parse(self, file_path: str) -> str:
@@ -58,7 +59,7 @@ class PreProcessor:
         Args:
             text (str): The input text containing the progress report
         Returns:
-            list[DataTable]: The extracted table data as a list of DataTable instances
+            ListDataTable: The extracted table data
         """
         response = self.model_with_structure.invoke(
             [
@@ -78,7 +79,7 @@ class PreProcessor:
             file_path (str): file path or URL to the document
 
         Returns:
-            list[DataTable]: The extracted table data as a list of DataTable instances
+            ListDataTable: The extracted table data
         """
         markdown_text = self.parse(file_path)
         table_data = self.extract_table_data(markdown_text)
