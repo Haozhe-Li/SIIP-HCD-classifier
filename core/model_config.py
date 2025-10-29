@@ -1,1 +1,1 @@
-DEFAULT_MODEL = "openai:gpt-4.1"
+DEFAULT_MODEL = "openai:gpt-5-nano"
