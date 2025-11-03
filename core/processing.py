@@ -56,6 +56,7 @@ class Processing:
             print(f"  Activity: {data_table.activity}")
             print(f"  HCD Spaces: {', '.join(data_table.HCD_Spaces)}")
             print(f"  HCD Subspaces: {', '.join(data_table.HCD_Subspaces)}")
+            print("-" * 40)
 
     def classify_table(
         self, table_data: List_Student_HCD_Label
