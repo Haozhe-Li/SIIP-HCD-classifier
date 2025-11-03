@@ -57,6 +57,7 @@ class FinalProcessing:
             print(f"Entry {idx + 1}:")
             print(f"Student Labeled Subspaces: {output_label.student_labeled_subspaces}")
             print(f"Result: {output_label.result}")
+            print("-" * 40)
 
     
 if __name__ == "__main__":
