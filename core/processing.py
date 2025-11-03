@@ -44,6 +44,19 @@ class Processing:
             ]
         )
         return response
+    
+    def display_list_data_table(self, table_data: list[LLM_HCD_Label]) -> None:
+        """Display the extracted List_Student_HCD_Label in a readable format.
+
+        Args:
+            table_data (list[LLM_HCD_Label]): The extracted table data to display.
+        """
+        for idx, data_table in enumerate(table_data):
+            print(f"Entry {idx + 1}:")
+            print(f"  Activity: {data_table.activity}")
+            print(f"  HCD Spaces: {', '.join(data_table.HCD_Spaces)}")
+            print(f"  HCD Subspaces: {', '.join(data_table.HCD_Subspaces)}")
+            print("-" * 40)
 
     def classify_table(
         self, table_data: List_Student_HCD_Label
@@ -74,4 +87,5 @@ if __name__ == "__main__":
 
     print("\nLLM classification results:")
     llm_labels = processor.classify_table(extracted_table)
-    print(llm_labels)
+    processor.display_list_data_table(llm_labels)
+
