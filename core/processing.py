@@ -49,7 +49,7 @@ class Processing:
         """Display the extracted List_Student_HCD_Label in a readable format.
 
         Args:
-            table_data (List_Student_HCD_Label): The extracted table data to display.
+            table_data (list[LLM_HCD_Label]): The extracted table data to display.
         """
         for idx, data_table in enumerate(table_data):
             print(f"Entry {idx + 1}:")
