@@ -2,6 +2,7 @@
 
 
 def test_import() -> None:
+    """test core import statement"""
     try:
         import core
     except ImportError as e:
