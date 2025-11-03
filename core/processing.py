@@ -42,8 +42,15 @@ class Processing:
     def classify_table(
         self, table_data: List_Student_HCD_Label
     ) -> list[LLM_HCD_Label]:
-        """Classify each activity entry produced by the preprocessing stage."""
+        """
+        Classify each activity entry produced by the preprocessing stage.
 
+        Args:
+            table_data (List_Student_HCD_Label): The structured table data containing student activities to classify.
+
+        Returns:
+            list[LLM_HCD_Label]: A list of classification results for each activity entry.
+        """
         return [self.classify_activity(entry.activity) for entry in table_data.tables]
 
 
