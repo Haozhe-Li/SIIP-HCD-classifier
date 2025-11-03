@@ -19,6 +19,12 @@ class Processing:
     """Post-processing helpers for activity evaluation."""
 
     def __init__(self) -> None:
+        """
+        Initialize the Processing helper.
+
+        Sets up the chat model using the default configuration and binds it to a structured output schema
+        (`LLM_HCD_Label`) for consistent activity classification results.
+        """
         self._model = init_chat_model(DEFAULT_MODEL)
         self.bound_model = self._model.with_structured_output(LLM_HCD_Label)
 
