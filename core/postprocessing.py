@@ -17,7 +17,7 @@ class FinalProcessing:
         Initialize the FinalProcessing helper.
 
         Sets up the chat model using the default configuration and binds it to a structured output schema
-        (`LLM_HCD_Label`) for consistent final activity classification results.
+        (`Output_Label`) for consistent final activity classification results.
         """
         self._model = init_chat_model(DEFAULT_MODEL)
         self.bound_model = self._model.with_structured_output(Output_Label)
