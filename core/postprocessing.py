@@ -17,7 +17,7 @@ class FinalProcessing:
         Initialize the FinalProcessing helper.
 
         Sets up the chat model using the default configuration and binds it to a structured output schema
-        (`Output_Label`) for consistent final activity classification results.
+        (`LLM_HCD_Label`) for consistent final activity classification results.
         """
         self._model = init_chat_model(DEFAULT_MODEL)
         self.bound_model = self._model.with_structured_output(Output_Label)
@@ -47,17 +47,20 @@ class FinalProcessing:
             )
         return List_Output_Label(labels=response)
     
-    def display_output_labels(self, output_labels: List_Output_Label) -> None:
-        """Display the extracted Output_Label in a readable format.
+    def display_output_labels(self, output_labels: List_Output_Label | list[Output_Label]) -> None:
+        """Display the extracted Output_Label entries in a readable format."""
 
-        Args:
-            output_labels (List_Output_Label): The extracted output labels to display.
-        """
-        for idx, output_label in enumerate(output_labels):
-            print(f"Entry {idx + 1}:")
-            print(f"Student Labeled Subspaces: {output_label.student_labeled_subspaces}")
-            print(f"Result: {output_label.result}")
-            print("-" * 40)
+        entries = (
+            output_labels.labels
+            if isinstance(output_labels, List_Output_Label)
+            else output_labels
+        )
+
+        print("Entry | Student Labeled Subspaces                 | Result")
+        print("------|--------------------------------------------|--------")
+        for idx, entry in enumerate(entries, start=1):
+            subspaces = entry.student_labeled_subspaces
+            print(f"{idx:>5} | {subspaces:<42} | {entry.result:>6}")
 
     
 if __name__ == "__main__":
