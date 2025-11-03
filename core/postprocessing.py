@@ -45,7 +45,7 @@ class FinalProcessing:
                     ]
                 )
             )
-        return response
+        return List_Output_Label(labels=response)
     
     def display_output_labels(self, output_labels: List_Output_Label) -> None:
         """Display the extracted Output_Label in a readable format.
