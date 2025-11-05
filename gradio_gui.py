@@ -43,17 +43,14 @@ def create_interface() -> gr.Blocks:
     with gr.Blocks(
         theme=gr.themes.Soft(primary_hue="blue", neutral_hue="slate")
     ) as demo:
-        gr.HTML(
+        gr.Markdown(
             """
-            <div id="app-header">
-                <div id="app-title">SIIP HCD Classifier</div>
-                <div id="app-subtitle">Upload a student PDF to generate harmonized competency labels.</div>
-            </div>
+            # SIIP HCD Classifier
             """
         )
 
         with gr.Row(equal_height=True):
-            with gr.Column(scale=5, min_width=320):
+            with gr.Column(scale=5, min_width=220):
                 gr.Markdown(
                     """
                     ### Step 1: Upload PDF
@@ -74,7 +71,7 @@ def create_interface() -> gr.Blocks:
                     "💡 Need a sample? Try documents inside `data/` while experimenting.",
                 )
 
-            with gr.Column(scale=5, min_width=320):
+            with gr.Column(scale=5, min_width=620):
                 text_output = gr.Markdown(
                     value="Result preview will appear here after processing.",
                     elem_id="result-card",
