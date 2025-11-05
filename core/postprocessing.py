@@ -23,7 +23,7 @@ class FinalProcessing:
         Initialize the FinalProcessing helper.
 
         Sets up the chat model using the final evaluation configuration and binds it to a structured output schema
-        (`LLM_HCD_Label`) for consistent final activity classification results.
+        (`Output_Label`) for consistent final activity evaluation results.
         """
         self._model = init_chat_model(FINAL_EVAL_MODEL)
         self.bound_model = self._model.with_structured_output(Output_Label)
@@ -49,7 +49,6 @@ class FinalProcessing:
                                 f"Student HCD Subspaces: {', '.join(student_entry.HCD_Subspaces)}\n"
                                 f"LLM HCD Spaces: {', '.join(llm_entry.HCD_Spaces)}\n"
                                 f"LLM HCD Subspaces: {', '.join(llm_entry.HCD_Subspaces)}\n"
-                                f"LLM Reason: {llm_entry.Reason}\n"
                             ),
                         },
                     ]
@@ -69,16 +68,17 @@ class FinalProcessing:
             else output_labels
         )
 
-        header = "| Entry | Student Labeled Subspaces | Result |\n"
-        separator = "| ---: | --- | ---: |\n"
+        header = "| Entry | Activity | Student Labeled Subspaces | Result | Reason |\n"
+        separator = "| ---: | --- | --- | ---: | --- |\n"
         print(header.strip())
         res += header
         print(separator.strip())
         res += separator
         for idx, entry in enumerate(entries, start=1):
-            subspaces = entry.student_labeled_subspaces
-            safe_subspaces = subspaces.replace("|", "\\|")
-            row = f"| {idx} | {safe_subspaces} | {entry.result} |\n"
+            activity = entry.activity.replace("|", "\\|")
+            subspaces = entry.student_labeled_subspaces.replace("|", "\\|")
+            reason = entry.Reason.replace("|", "\\|")
+            row = f"| {idx} | {activity} | {subspaces} | {entry.result} | {reason} |\n"
             print(row.strip())
             res += row
         return res

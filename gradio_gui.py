@@ -9,38 +9,6 @@ from core.processing import Processing
 from core.postprocessing import FinalProcessing
 
 
-CUSTOM_CSS = """
-#app-header {
-  text-align: center;
-  margin-bottom: 1.5rem;
-}
-
-#app-title {
-  font-size: 2rem;
-  font-weight: 600;
-  margin-bottom: 0.25rem;
-}
-
-#app-subtitle {
-  color: #475569;
-  font-size: 0.95rem;
-}
-
-#result-card {
-  background: #f8fafc;
-  border-radius: 0.75rem;
-  padding: 1.25rem;
-  border: 1px solid #e2e8f0;
-  min-height: 260px;
-}
-
-.gradio-container {
-  max-width: 980px !important;
-  margin: auto !important;
-}
-"""
-
-
 def run(pdf_input: Any, progress=gr.Progress(track_tqdm=True)) -> str:
     final_processor = FinalProcessing()
     processor = Processing()
@@ -73,7 +41,7 @@ def run(pdf_input: Any, progress=gr.Progress(track_tqdm=True)) -> str:
 
 def create_interface() -> gr.Blocks:
     with gr.Blocks(
-        theme=gr.themes.Soft(primary_hue="blue", neutral_hue="slate"), css=CUSTOM_CSS
+        theme=gr.themes.Soft(primary_hue="blue", neutral_hue="slate")
     ) as demo:
         gr.HTML(
             """

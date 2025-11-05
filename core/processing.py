@@ -28,7 +28,6 @@ class Processing:
         self._model = init_chat_model(DEFAULT_MODEL)
         self.bound_model = self._model.with_structured_output(LLM_HCD_Label)
 
-
     def classify_activity(self, activity: str) -> LLM_HCD_Label:
         """Classify a single activity description using the configured LLM."""
         response = self.bound_model.invoke(
@@ -37,14 +36,14 @@ class Processing:
                 {
                     "role": "user",
                     "content": (
-                        "Classify the following activity and explain your reasoning:\n\n"
+                        "Classify the following activity according to the HCD rubric:\n\n"
                         f"{activity}"
                     ),
                 },
             ]
         )
         return response
-    
+
     def display_list_data_table(self, table_data: list[LLM_HCD_Label]) -> None:
         """Display the extracted List_Student_HCD_Label in a readable format.
 
@@ -58,9 +57,7 @@ class Processing:
             print(f"  HCD Subspaces: {', '.join(data_table.HCD_Subspaces)}")
             print("-" * 40)
 
-    def classify_table(
-        self, table_data: List_Student_HCD_Label
-    ) -> list[LLM_HCD_Label]:
+    def classify_table(self, table_data: List_Student_HCD_Label) -> list[LLM_HCD_Label]:
         """
         Classify each activity entry produced by the preprocessing stage.
 
@@ -88,4 +85,3 @@ if __name__ == "__main__":
     print("\nLLM classification results:")
     llm_labels = processor.classify_table(extracted_table)
     processor.display_list_data_table(llm_labels)
-

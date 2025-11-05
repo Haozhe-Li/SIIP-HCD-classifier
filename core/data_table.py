@@ -36,13 +36,12 @@ class List_Student_HCD_Label(BaseModel):
 
 
 class LLM_HCD_Label(BaseModel):
-    """Structured representation of a single activity row from the HCD table.
+    """Model-assigned HCD labels for a single activity entry.
 
     Attributes:
         activity: Text describing the activity from the source table.
         HCD_Spaces: Ordered list of HCD spaces linked to the activity.
         HCD_Subspaces: Ordered list of HCD subspaces linked to the activity.
-        Reason: The reason for the assigned labels.
     """
 
     activity: str = Field(..., description="The Content in the Activity column")
@@ -53,22 +52,27 @@ class LLM_HCD_Label(BaseModel):
         ...,
         description="The Content in the corresponding activity's HCD Subspace column",
     )
-    Reason: str = Field(..., description="The reason for the assigned labels")
 
 
 class Output_Label(BaseModel):
-    """Structured representation of a single output label entry.
+    """Final evaluation result for a student activity label.
 
     Attributes:
-        student_labeled_subspaces: The student's labeled HCD subspaces.
+        activity: Text describing the original activity entry.
+        student_labeled_subspaces: Student-provided subspaces as a comma-separated string.
         result: 1 if correct, 0 if not enough evidence, -1 if incorrect.
+        Reason: Short justification for the assigned result.
     """
 
+    activity: str = Field(..., description="The Content in the Activity column")
     student_labeled_subspaces: str = Field(
         ..., description="The student's labeled HCD subspaces"
     )
     result: int = Field(
         ..., description="1 if correct, 0 if not enough evidence, -1 if incorrect"
+    )
+    Reason: str = Field(
+        ..., description="The reason for marking the result as 1, 0 or -1"
     )
 
 
