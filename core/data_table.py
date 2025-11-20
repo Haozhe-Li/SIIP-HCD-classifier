@@ -59,12 +59,17 @@ class Output_Label(BaseModel):
 
     Attributes:
         activity: Text describing the original activity entry.
+        student_labeled_spaces: Student-provided spaces as a comma-separated string.
         student_labeled_subspaces: Student-provided subspaces as a comma-separated string.
         result: 1 if correct, 0 if not enough evidence, -1 if incorrect.
         Reason: Short justification for the assigned result.
     """
 
     activity: str = Field(..., description="The Content in the Activity column")
+
+    student_labeled_spaces: str = Field(
+        ..., description="The student's labeled HCD spaces"
+    )
     student_labeled_subspaces: str = Field(
         ..., description="The student's labeled HCD subspaces"
     )

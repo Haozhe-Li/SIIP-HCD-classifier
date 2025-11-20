@@ -68,17 +68,21 @@ class FinalProcessing:
             else output_labels
         )
 
-        header = "| Entry | Activity | Student Labeled Subspaces | Result | Reason |\n"
-        separator = "| ---: | --- | --- | ---: | --- |\n"
+        header = "| Entry | Activity | Student Labeled Spaces | Student Labeled Subspaces | Result | Reason |\n"
+        separator = "| ---: | --- | --- | --- | ---: | --- |\n"
         print(header.strip())
         res += header
         print(separator.strip())
         res += separator
         for idx, entry in enumerate(entries, start=1):
             activity = entry.activity.replace("|", "\\|")
+            spaces = entry.student_labeled_spaces.replace("|", "\\|")
             subspaces = entry.student_labeled_subspaces.replace("|", "\\|")
             reason = entry.Reason.replace("|", "\\|")
-            row = f"| {idx} | {activity} | {subspaces} | {entry.result} | {reason} |\n"
+            row = (
+                f"| {idx} | {activity} | {spaces} | {subspaces} | "
+                f"{entry.result} | {reason} |\n"
+            )
             print(row.strip())
             res += row
         return res
@@ -95,7 +99,7 @@ if __name__ == "__main__":
         os.path.dirname(__file__),
         "..",
         "data",
-        "progress_report_example_1.pdf",
+        "progress_report_1.pdf",
     )
     # Preprocess to get student labeled data
     student_table_data = preprocessor.invoke(pdf_path)
