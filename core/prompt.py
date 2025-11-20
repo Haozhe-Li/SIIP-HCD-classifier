@@ -46,7 +46,7 @@ You are a highly skilled data extraction specialist. Your task is to extract str
 
 ## Template Overview
 - Section 3 asks the student to highlight the HCD spaces/processes used; treat this as reference only.
-- Section 4 contains a table with four columns: "Activity Title", "Activity Description", "HCD space(s)", and "HCD process(es)". This table may include an instructional sample row labelled "Example"—exclude it from the output.
+- Section 4 contains a table with four columns: "Activity Title", "Activity Description", "HCD space(s)", and "HCD process(es)". This table may include an instructional sample row labeled "Example"—exclude it from the output.
 - Sections 5–10 are narrative questions; ignore them for structured extraction.
 
 ## Task
