@@ -36,11 +36,13 @@ def _validate_upload(file: UploadFile) -> None:
     if not file.filename:
         raise HTTPException(status_code=400, detail="No file uploaded.")
 
-    content_type = (file.content_type or "").lower()
-    if not content_type:
-        content_type = "application/pdf" if file.filename.lower().endswith(".pdf") else ""
+    # Check filename extension
+    if not file.filename.lower().endswith(".pdf"):
+        raise HTTPException(status_code=400, detail="Uploaded file must be a PDF.")
 
-    if content_type not in {"application/pdf", "application/octet-stream"} and not file.filename.lower().endswith(".pdf"):
+    # Validate content type if provided
+    content_type = (file.content_type or "").lower()
+    if content_type and content_type != "application/pdf":
         raise HTTPException(status_code=400, detail="Uploaded file must be a PDF.")
 
 
@@ -48,6 +50,10 @@ async def _persist_upload(file: UploadFile) -> Path:
     contents = await file.read()
     if not contents:
         raise HTTPException(status_code=400, detail="Uploaded PDF is empty.")
+
+    # Validate PDF magic bytes (PDF files start with %PDF-)
+    if not contents.startswith(b"%PDF-"):
+        raise HTTPException(status_code=400, detail="Uploaded file is not a valid PDF.")
 
     suffix = Path(file.filename or "uploaded.pdf").suffix or ".pdf"
 
