@@ -42,14 +42,14 @@ class PreProcessor:
                 for page in document:
                     try:
                         markdown_text = page.get_text("markdown").strip()
-                    except (RuntimeError, ValueError):
+                    except (AssertionError, RuntimeError, ValueError):
                         markdown_text = ""
 
                     if not markdown_text:
                         markdown_text = page.get_text().strip()
 
                     pages_markdown.append(markdown_text)
-        except (RuntimeError, ValueError) as exc:
+        except (AssertionError, RuntimeError, ValueError) as exc:
             raise ValueError(f"Failed to parse PDF: {file_path}") from exc
 
         return "\n\n".join(pages_markdown)
