@@ -97,7 +97,7 @@ async def classify_pdf(file: UploadFile = File(...)) -> ClassificationResponse:
                 os.remove(temp_path)
             except FileNotFoundError:
                 pass
-            except (PermissionError, OSError) as e:
+            except OSError as e:
                 logger.warning(f"Failed to remove temporary file {temp_path}: {e}")
 
     return ClassificationResponse(
