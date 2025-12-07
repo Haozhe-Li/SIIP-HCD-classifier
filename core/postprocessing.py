@@ -1,3 +1,4 @@
+import asyncio
 import os
 import sys
 
@@ -28,33 +29,60 @@ class FinalProcessing:
         self._model = init_chat_model(FINAL_EVAL_MODEL)
         self.bound_model = self._model.with_structured_output(Output_Label)
 
+    @staticmethod
+    def _build_eval_prompt(student_entry, llm_entry) -> list[dict[str, str]]:
+        return [
+            {"role": "system", "content": FINAL_EVAL_SYS_PROMPT},
+            {
+                "role": "user",
+                "content": (
+                    "Evaluate the following student and LLM labels for the activity:\n\n"
+                    f"Activity: {student_entry.activity}\n"
+                    f"Student HCD Spaces: {', '.join(student_entry.HCD_Spaces)}\n"
+                    f"Student HCD Subspaces: {', '.join(student_entry.HCD_Subspaces)}\n"
+                    f"LLM HCD Spaces: {', '.join(llm_entry.HCD_Spaces)}\n"
+                    f"LLM HCD Subspaces: {', '.join(llm_entry.HCD_Subspaces)}\n"
+                ),
+            },
+        ]
+
     def final_eval(
         self,
         student_hcd_label: List_Student_HCD_Label,
         llm_hcd_label: list[LLM_HCD_Label],
     ) -> List_Output_Label:
         """Evaluate the final output labels against the student labels."""
-        response = []
-        for student_entry, llm_entry in zip(student_hcd_label.tables, llm_hcd_label):
-            response.append(
-                self.bound_model.invoke(
-                    [
-                        {"role": "system", "content": FINAL_EVAL_SYS_PROMPT},
-                        {
-                            "role": "user",
-                            "content": (
-                                "Evaluate the following student and LLM labels for the activity:\n\n"
-                                f"Activity: {student_entry.activity}\n"
-                                f"Student HCD Spaces: {', '.join(student_entry.HCD_Spaces)}\n"
-                                f"Student HCD Subspaces: {', '.join(student_entry.HCD_Subspaces)}\n"
-                                f"LLM HCD Spaces: {', '.join(llm_entry.HCD_Spaces)}\n"
-                                f"LLM HCD Subspaces: {', '.join(llm_entry.HCD_Subspaces)}\n"
-                            ),
-                        },
-                    ]
-                )
-            )
+        try:
+            asyncio.get_running_loop()
+        except RuntimeError:
+            return asyncio.run(self.afinal_eval(student_hcd_label, llm_hcd_label))
+
+        response = [
+            self.bound_model.invoke(self._build_eval_prompt(student_entry, llm_entry))
+            for student_entry, llm_entry in zip(student_hcd_label.tables, llm_hcd_label)
+        ]
         return List_Output_Label(labels=response)
+
+    async def afinal_eval(
+        self,
+        student_hcd_label: List_Student_HCD_Label,
+        llm_hcd_label: list[LLM_HCD_Label],
+        max_concurrency: int = 4,
+    ) -> List_Output_Label:
+        sem = asyncio.Semaphore(max_concurrency)
+
+        async def evaluate(student_entry, llm_entry):
+            async with sem:
+                return await self.bound_model.ainvoke(
+                    self._build_eval_prompt(student_entry, llm_entry)
+                )
+
+        tasks = [
+            evaluate(student_entry, llm_entry)
+            for student_entry, llm_entry in zip(student_hcd_label.tables, llm_hcd_label)
+        ]
+        results = await asyncio.gather(*tasks)
+        return List_Output_Label(labels=results)
 
     def display_output_labels(
         self, output_labels: List_Output_Label | list[Output_Label]
@@ -68,17 +96,21 @@ class FinalProcessing:
             else output_labels
         )
 
-        header = "| Entry | Activity | Student Labeled Subspaces | Result | Reason |\n"
-        separator = "| ---: | --- | --- | ---: | --- |\n"
+        header = "| Entry | Activity | Student Labeled Spaces | Student Labeled Subspaces | Result | Reason |\n"
+        separator = "| ---: | --- | --- | --- | ---: | --- |\n"
         print(header.strip())
         res += header
         print(separator.strip())
         res += separator
         for idx, entry in enumerate(entries, start=1):
             activity = entry.activity.replace("|", "\\|")
+            spaces = entry.student_labeled_spaces.replace("|", "\\|")
             subspaces = entry.student_labeled_subspaces.replace("|", "\\|")
             reason = entry.Reason.replace("|", "\\|")
-            row = f"| {idx} | {activity} | {subspaces} | {entry.result} | {reason} |\n"
+            row = (
+                f"| {idx} | {activity} | {spaces} | {subspaces} | "
+                f"{entry.result} | {reason} |\n"
+            )
             print(row.strip())
             res += row
         return res
@@ -95,7 +127,7 @@ if __name__ == "__main__":
         os.path.dirname(__file__),
         "..",
         "data",
-        "progress_report_example_1.pdf",
+        "progress_report_1.pdf",
     )
     # Preprocess to get student labeled data
     student_table_data = preprocessor.invoke(pdf_path)

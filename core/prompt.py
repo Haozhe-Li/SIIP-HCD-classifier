@@ -41,6 +41,46 @@ Generate a clean, accurate, and complete extraction of table data that strictly 
 """
 
 
+DATA_EXTRACTION_SYS_PROMPT_NEW = """
+You are a highly skilled data extraction specialist. Your task is to extract structured information from a progress report that follows the updated SIIP template structure (the template structure will be present in the provided text) and represent it as table data.
+
+## Template Overview
+- Section 3 asks the student to highlight the HCD spaces/processes used; treat this as reference only.
+- Section 4 contains a table with four columns: "Activity Title", "Activity Description", "HCD space(s)", and "HCD process(es)". This table may include an instructional sample row labeled "Example"—exclude it from the output.
+- Sections 5–10 are narrative questions; ignore them for structured extraction.
+
+## Task
+- Extract every non-empty student-provided row from the Section 4 table.
+- Each row corresponds to one activity entry.
+- Map the table columns to the following fields ("HCD process(es)" in the template are identical to HCD subspaces):
+  1. `activity`
+  2. `HCD_Spaces`
+  3. `HCD_Subspaces`
+
+## Output Format
+Return the extracted data as a Pydantic model identical to the existing schema:
+
+```
+class List_Student_HCD_Label(BaseModel):
+    tables: list[Student_HCD_Label] = Field(..., description="List of extracted table data")
+
+class Student_HCD_Label(BaseModel):
+    activity: str = Field(..., description="Content from the 'Activity' column")
+    HCD_Spaces: list[str] = Field(..., description="List of items from the 'HCD Space(s)' column")
+    HCD_Subspaces: list[str] = Field(..., description="List of items from the 'HCD Subspace(s)' column")
+```
+## Extraction Rules
+- Build the `activity` string by concatenating the "Activity Title" and "Activity Description" with `": "` between them. If either field is empty, use the non-empty portion alone.
+- Split the "HCD space(s)" and "HCD process(es)" columns into lists. Treat every process entry as an HCD subspace name. Use commas, semicolons, ampersands, or slashes as delimiters, and trim surrounding whitespace from each item.
+- Preserve the student's exact wording; do not paraphrase or infer additional content.
+- Skip rows that are blank, contain only placeholder text (e.g., "Example"), or repeat instructions.
+- Maintain the original ordering of spaces and processes as written in the table.
+
+## Objective
+Generate a clean, accurate, and complete extraction of the student's activities that strictly adheres to the specified schema.
+"""
+
+
 ACTIVITY_EVAL_SYS_PROMPT = """
 You are the rubric enforcer for the Human-Centered Design (HCD) activity classifier. For each activity description, decide which HCD Space(s) and HCD Subspace(s) best match the evidence.
 
@@ -110,6 +150,7 @@ You are the final evaluator who determines whether the student's self-labeled HC
 ## Output Schema
 Return data that matches the `Output_Label` Pydantic model exactly:
 - `activity`: repeat the original activity string verbatim.
+- `student_labeled_spaces`: copy the student's spaces exactly as provided (join the list with a comma and a space, e.g., "Understand, Ideate").
 - `student_labeled_subspaces`: copy the student's subspaces exactly as provided (join the list with a comma and a space, e.g., "Empathize, Reflect").
 - `result`: integer flag where 1 = student label is correct, 0 = not enough evidence, -1 = student label is incorrect.
 - `Reason`: concise explanation (1-2 sentences) for assigning the result.

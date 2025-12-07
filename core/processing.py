@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import asyncio
 import os
 import sys
 
@@ -28,21 +29,27 @@ class Processing:
         self._model = init_chat_model(DEFAULT_MODEL)
         self.bound_model = self._model.with_structured_output(LLM_HCD_Label)
 
+    @staticmethod
+    def _build_activity_prompt(activity: str) -> list[dict[str, str]]:
+        return [
+            {"role": "system", "content": ACTIVITY_EVAL_SYS_PROMPT},
+            {
+                "role": "user",
+                "content": (
+                    "Classify the following activity according to the HCD rubric:\n\n"
+                    f"{activity}"
+                ),
+            },
+        ]
+
     def classify_activity(self, activity: str) -> LLM_HCD_Label:
         """Classify a single activity description using the configured LLM."""
-        response = self.bound_model.invoke(
-            [
-                {"role": "system", "content": ACTIVITY_EVAL_SYS_PROMPT},
-                {
-                    "role": "user",
-                    "content": (
-                        "Classify the following activity according to the HCD rubric:\n\n"
-                        f"{activity}"
-                    ),
-                },
-            ]
-        )
+        response = self.bound_model.invoke(self._build_activity_prompt(activity))
         return response
+
+    async def aclassify_activity(self, activity: str) -> LLM_HCD_Label:
+        """Async variant of :py:meth:`classify_activity`."""
+        return await self.bound_model.ainvoke(self._build_activity_prompt(activity))
 
     def display_list_data_table(self, table_data: list[LLM_HCD_Label]) -> None:
         """Display the extracted List_Student_HCD_Label in a readable format.
@@ -67,7 +74,25 @@ class Processing:
         Returns:
             list[LLM_HCD_Label]: A list of classification results for each activity entry.
         """
+        try:
+            asyncio.get_running_loop()
+        except RuntimeError:
+            return asyncio.run(self.aclassify_table(table_data))
+
+        # Fallback to sequential classification if already inside an event loop.
         return [self.classify_activity(entry.activity) for entry in table_data.tables]
+
+    async def aclassify_table(
+        self, table_data: List_Student_HCD_Label, max_concurrency: int = 4
+    ) -> list[LLM_HCD_Label]:
+        sem = asyncio.Semaphore(max_concurrency)
+
+        async def classify(entry_activity: str) -> LLM_HCD_Label:
+            async with sem:
+                return await self.aclassify_activity(entry_activity)
+
+        tasks = [classify(entry.activity) for entry in table_data.tables]
+        return await asyncio.gather(*tasks)
 
 
 if __name__ == "__main__":
@@ -77,7 +102,7 @@ if __name__ == "__main__":
     preprocessor = PreProcessor()
     pdf_path = os.path.join(
         os.path.dirname(__file__),
-        "../data/progress_report_example_1.pdf",
+        "../data/progress_report_1.pdf",
     )
 
     extracted_table = preprocessor.invoke(pdf_path)
