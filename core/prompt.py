@@ -42,7 +42,7 @@ Generate a clean, accurate, and complete extraction of table data that strictly 
 
 
 DATA_EXTRACTION_SYS_PROMPT_NEW = """
-You are a highly skilled data extraction specialist. Your task is to extract structured information from the updated SIIP progress report template (see `new_template.pdf`) and represent it as table data.
+You are a highly skilled data extraction specialist. Your task is to extract structured information from a progress report that follows the updated SIIP template structure (the template structure will be present in the provided text) and represent it as table data.
 
 ## Template Overview
 - Section 3 asks the student to highlight the HCD spaces/processes used; treat this as reference only.
