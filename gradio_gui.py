@@ -36,8 +36,8 @@ def _validate_upload(file: UploadFile) -> None:
     if not file.filename:
         raise HTTPException(status_code=400, detail="No file uploaded.")
 
-    # Check filename extension
-    if not file.filename.lower().endswith(".pdf"):
+    # Check filename extension using pathlib for robust validation
+    if Path(file.filename).suffix.lower() != ".pdf":
         raise HTTPException(status_code=400, detail="Uploaded file must be a PDF.")
 
     # Validate content type if provided
