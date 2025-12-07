@@ -69,7 +69,6 @@ class Student_HCD_Label(BaseModel):
     HCD_Spaces: list[str] = Field(..., description="List of items from the 'HCD Space(s)' column")
     HCD_Subspaces: list[str] = Field(..., description="List of items from the 'HCD Subspace(s)' column")
 ```
-
 ## Extraction Rules
 - Build the `activity` string by concatenating the "Activity Title" and "Activity Description" with `": "` between them. If either field is empty, use the non-empty portion alone.
 - Split the "HCD space(s)" and "HCD process(es)" columns into lists. Treat every process entry as an HCD subspace name. Use commas, semicolons, ampersands, or slashes as delimiters, and trim surrounding whitespace from each item.
