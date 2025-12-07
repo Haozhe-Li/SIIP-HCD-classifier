@@ -42,7 +42,7 @@ class PreProcessor:
                 for page in document:
                     try:
                         markdown_text = page.get_text("markdown").strip()
-                    except (AssertionError, RuntimeError, ValueError):
+                    except (RuntimeError, ValueError):
                         markdown_text = ""
 
                     if not markdown_text:
