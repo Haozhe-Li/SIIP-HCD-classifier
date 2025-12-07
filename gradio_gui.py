@@ -83,7 +83,7 @@ async def classify_pdf(file: UploadFile = File(...)) -> ClassificationResponse:
 
     try:
         temp_path = await _persist_upload(file)
-        student_labels = await asyncio.to_thread(preprocessor.invoke, temp_path.as_posix())
+        student_labels = await preprocessor.ainvoke(temp_path.as_posix())
         llm_labels = await processor.aclassify_table(student_labels)
         final_labels = await final_processor.afinal_eval(student_labels, llm_labels)
     except (ValueError, RuntimeError) as exc:
