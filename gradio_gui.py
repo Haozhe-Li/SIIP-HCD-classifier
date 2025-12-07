@@ -1,95 +1,108 @@
 from __future__ import annotations
 
+import asyncio
 import os
-from typing import Any
+import tempfile
+from pathlib import Path
 
-import gradio as gr
+from fastapi import FastAPI, File, HTTPException, UploadFile
+from pydantic import BaseModel
+
+from core.data_table import LLM_HCD_Label, List_Output_Label, List_Student_HCD_Label
+from core.postprocessing import FinalProcessing
 from core.preprocessing import PreProcessor
 from core.processing import Processing
-from core.postprocessing import FinalProcessing
 
 
-def run(pdf_input: Any, progress=gr.Progress(track_tqdm=True)) -> str:
-    final_processor = FinalProcessing()
-    processor = Processing()
-    preprocessor = PreProcessor()
-    if not pdf_input:
-        raise gr.Error("Please upload a PDF file before running the classifier.")
-
-    progress(0.1, desc="Preprocessing PDF...")
-    pdf_path = os.fspath(pdf_input)
-    # Preprocess to get student labeled data
-    student_table_data = preprocessor.invoke(pdf_path)
-    print("Student Labeled Data:")
-    preprocessor.display_list_data_table(student_table_data)
-
-    # Process to get LLM labeled data
-    progress(0.5, desc="Running classifier...")
-    llm_table_data = processor.classify_table(student_table_data)
-    print("\nLLM Labeled Data:")
-    processor.display_list_data_table(llm_table_data)
-
-    # Final evaluation
-    progress(0.8, desc="Scoring results...")
-    final_output = final_processor.final_eval(student_table_data, llm_table_data)
-    print("\nFinal Evaluation Results:")
-    res = final_processor.display_output_labels(final_output)
-
-    progress(1.0, desc="Done")
-    return res
+class ClassificationResponse(BaseModel):
+    student_labels: List_Student_HCD_Label
+    llm_labels: list[LLM_HCD_Label]
+    final_labels: List_Output_Label
 
 
-def create_interface() -> gr.Blocks:
-    with gr.Blocks(
-        theme=gr.themes.Soft(primary_hue="blue", neutral_hue="slate")
-    ) as demo:
-        gr.Markdown(
-            """
-            # SIIP HCD Classifier
-            """
-        )
-
-        with gr.Row(equal_height=True):
-            with gr.Column(scale=5, min_width=220):
-                gr.Markdown(
-                    """
-                    ### Step 1: Upload PDF
-                    - Provide a single PDF generated from the SIIP evaluation workflow.
-                    - The pipeline will extract student annotations, classify with HCD labels, and surface the final rubric.
-                    """
-                )
-                file_input = gr.File(
-                    label="PDF Upload",
-                    file_types=[".pdf"],
-                    type="filepath",
-                    file_count="single",
-                )
-                with gr.Row():
-                    submit_button = gr.Button("Run Classification", variant="primary")
-                    clear_button = gr.Button("Clear", variant="secondary")
-                gr.Markdown(
-                    "💡 Need a sample? Try documents inside `data/` while experimenting.",
-                )
-
-            with gr.Column(scale=5, min_width=620):
-                text_output = gr.Markdown(
-                    value="Result preview will appear here after processing.",
-                    elem_id="result-card",
-                    label="Classification Result",
-                )
-
-        submit_button.click(run, inputs=file_input, outputs=text_output)
-        clear_button.click(
-            lambda: (None, "Result cleared."),
-            inputs=[],
-            outputs=[file_input, text_output],
-        )
-
-        return demo
+class RootResponse(BaseModel):
+    message: str
+    endpoints: dict[str, str]
 
 
-demo = create_interface()
+app = FastAPI(title="SIIP HCD Classifier API", version="0.1.0")
+
+preprocessor = PreProcessor()
+processor = Processing()
+final_processor = FinalProcessing()
+
+
+def _validate_upload(file: UploadFile) -> None:
+    if not file.filename:
+        raise HTTPException(status_code=400, detail="No file uploaded.")
+
+    content_type = (file.content_type or "").lower()
+    if not content_type:
+        content_type = "application/pdf" if file.filename.lower().endswith(".pdf") else ""
+
+    if content_type not in {"application/pdf", "application/octet-stream"} and not file.filename.lower().endswith(".pdf"):
+        raise HTTPException(status_code=400, detail="Uploaded file must be a PDF.")
+
+
+async def _persist_upload(file: UploadFile) -> Path:
+    contents = await file.read()
+    if not contents:
+        raise HTTPException(status_code=400, detail="Uploaded PDF is empty.")
+
+    suffix = Path(file.filename or "uploaded.pdf").suffix or ".pdf"
+
+    with tempfile.NamedTemporaryFile(delete=False, suffix=suffix) as tmp:
+        path = Path(tmp.name)
+        tmp.write(contents)
+
+    await file.close()
+    return path
+
+
+@app.get("/health")
+async def health() -> dict[str, str]:
+    return {"status": "ok"}
+
+
+@app.get("/", response_model=RootResponse)
+async def root() -> RootResponse:
+    return RootResponse(
+        message="SIIP HCD Classifier API",
+        endpoints={
+            "health": "/health",
+            "classify": "/classify",
+            "docs": "/docs",
+        },
+    )
+
+
+@app.post("/classify", response_model=ClassificationResponse)
+async def classify_pdf(file: UploadFile = File(...)) -> ClassificationResponse:
+    _validate_upload(file)
+    temp_path: Path | None = None
+
+    try:
+        temp_path = await _persist_upload(file)
+        student_labels = await asyncio.to_thread(preprocessor.invoke, temp_path.as_posix())
+        llm_labels = await processor.aclassify_table(student_labels)
+        final_labels = await final_processor.afinal_eval(student_labels, llm_labels)
+    except (ValueError, RuntimeError) as exc:
+        raise HTTPException(status_code=400, detail=str(exc)) from exc
+    finally:
+        if temp_path is not None:
+            try:
+                os.remove(temp_path)
+            except FileNotFoundError:
+                pass
+
+    return ClassificationResponse(
+        student_labels=student_labels,
+        llm_labels=llm_labels,
+        final_labels=final_labels,
+    )
 
 
 if __name__ == "__main__":
-    demo.launch()
+    import uvicorn
+
+    uvicorn.run("gradio_gui:app", host="0.0.0.0", port=8001, reload=False)

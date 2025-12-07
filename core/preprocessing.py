@@ -4,12 +4,9 @@
 import os
 import sys
 
-sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+import fitz
 
-from docling.datamodel.accelerator_options import AcceleratorDevice, AcceleratorOptions
-from docling.datamodel.base_models import InputFormat
-from docling.datamodel.pipeline_options import PdfPipelineOptions
-from docling.document_converter import DocumentConverter, PdfFormatOption
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 from dotenv import load_dotenv
 from langchain.chat_models import init_chat_model
 
@@ -24,19 +21,6 @@ class PreProcessor:
     """A Preprocessor that parses documents and extract information"""
 
     def __init__(self) -> None:
-        pipeline_options = PdfPipelineOptions()
-        pipeline_options.do_ocr = True
-        pipeline_options.do_table_structure = True
-        pipeline_options.table_structure_options.do_cell_matching = True
-        pipeline_options.accelerator_options = AcceleratorOptions(
-            num_threads=4, device=AcceleratorDevice.AUTO
-        )
-        doc_converter = DocumentConverter(
-            format_options={
-                InputFormat.PDF: PdfFormatOption(pipeline_options=pipeline_options)
-            }
-        )
-        self.doc_converter = doc_converter
         model = init_chat_model(DEFAULT_MODEL)
         self.model_with_structure = model.with_structured_output(List_Student_HCD_Label)
 
@@ -49,8 +33,26 @@ class PreProcessor:
         Returns:
             str: The extracted markdown text from the document
         """
-        result = self.doc_converter.convert(file_path)
-        return result.document.export_to_markdown()
+        if not os.path.exists(file_path):
+            raise FileNotFoundError(f"File not found: {file_path}")
+
+        try:
+            with fitz.open(file_path) as document:
+                pages_markdown = []
+                for page in document:
+                    try:
+                        markdown_text = page.get_text("markdown").strip()
+                    except (AssertionError, RuntimeError, ValueError):
+                        markdown_text = ""
+
+                    if not markdown_text:
+                        markdown_text = page.get_text().strip()
+
+                    pages_markdown.append(markdown_text)
+        except (RuntimeError, ValueError) as exc:
+            raise ValueError(f"Failed to parse PDF: {file_path}") from exc
+
+        return "\n\n".join(pages_markdown)
 
     def _extract_table_data(self, text: str) -> List_Student_HCD_Label:
         """Extract table data from the given text using LLM
@@ -104,7 +106,7 @@ if __name__ == "__main__":
     res = pre_processor.invoke(
         os.path.join(
             os.path.dirname(__file__),
-            "../data/progress_report_example_1.pdf",
+            "../data/progress_report_1.pdf",
         )
     )
 
