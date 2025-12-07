@@ -17,7 +17,7 @@ For a full design proposal and technical details, see our [design proposal](./do
 OPENAI_API_KEY=your-openai-api-key-here
 ```
 
-1. Launch the REST API server:
+4. Launch the REST API server:
 
 ```bash
 uvicorn gradio_gui:app --host 0.0.0.0 --port 8001
