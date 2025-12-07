@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import asyncio
+import logging
 import os
 import tempfile
 from pathlib import Path
@@ -12,6 +13,8 @@ from core.data_table import LLM_HCD_Label, List_Output_Label, List_Student_HCD_L
 from core.postprocessing import FinalProcessing
 from core.preprocessing import PreProcessor
 from core.processing import Processing
+
+logger = logging.getLogger(__name__)
 
 
 class ClassificationResponse(BaseModel):
@@ -94,6 +97,8 @@ async def classify_pdf(file: UploadFile = File(...)) -> ClassificationResponse:
                 os.remove(temp_path)
             except FileNotFoundError:
                 pass
+            except Exception as e:
+                logger.warning(f"Failed to remove temporary file {temp_path}: {e}")
 
     return ClassificationResponse(
         student_labels=student_labels,
