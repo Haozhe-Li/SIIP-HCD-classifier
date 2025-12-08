@@ -67,11 +67,11 @@ class Output_Label(BaseModel):
 
     activity: str = Field(..., description="The Content in the Activity column")
 
-    student_labeled_spaces: str = Field(
-        ..., description="The student's labeled HCD spaces"
+    student_labeled_spaces: list[str] = Field(
+        ..., description="The student's labeled HCD spaces (lowercased, normalized)"
     )
-    student_labeled_subspaces: str = Field(
-        ..., description="The student's labeled HCD subspaces"
+    student_labeled_subspaces: list[str] = Field(
+        ..., description="The student's labeled HCD subspaces (lowercased, normalized)"
     )
     result: int = Field(
         ..., description="1 if correct, 0 if not enough evidence, -1 if incorrect"

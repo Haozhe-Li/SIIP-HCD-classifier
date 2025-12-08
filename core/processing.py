@@ -14,6 +14,7 @@ from langchain.chat_models import init_chat_model
 from core.data_table import List_Student_HCD_Label, LLM_HCD_Label
 from core.model_config import DEFAULT_MODEL
 from core.prompt import ACTIVITY_EVAL_SYS_PROMPT
+from core.utils import KNOWN_SPACES, KNOWN_SUBSPACES, normalize_list
 
 
 class Processing:
@@ -45,11 +46,17 @@ class Processing:
     def classify_activity(self, activity: str) -> LLM_HCD_Label:
         """Classify a single activity description using the configured LLM."""
         response = self.bound_model.invoke(self._build_activity_prompt(activity))
+        # normalize model outputs
+        response.HCD_Spaces = normalize_list(response.HCD_Spaces, KNOWN_SPACES)
+        response.HCD_Subspaces = normalize_list(response.HCD_Subspaces, KNOWN_SUBSPACES)
         return response
 
     async def aclassify_activity(self, activity: str) -> LLM_HCD_Label:
         """Async variant of :py:meth:`classify_activity`."""
-        return await self.bound_model.ainvoke(self._build_activity_prompt(activity))
+        resp = await self.bound_model.ainvoke(self._build_activity_prompt(activity))
+        resp.HCD_Spaces = normalize_list(resp.HCD_Spaces, KNOWN_SPACES)
+        resp.HCD_Subspaces = normalize_list(resp.HCD_Subspaces, KNOWN_SUBSPACES)
+        return resp
 
     def display_list_data_table(self, table_data: list[LLM_HCD_Label]) -> None:
         """Display the extracted List_Student_HCD_Label in a readable format.

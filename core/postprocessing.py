@@ -14,6 +14,7 @@ from core.data_table import (
 )
 from core.model_config import FINAL_EVAL_MODEL
 from core.prompt import FINAL_EVAL_SYS_PROMPT
+from core.utils import KNOWN_SPACES, KNOWN_SUBSPACES, normalize_list
 
 
 class FinalProcessing:
@@ -104,8 +105,8 @@ class FinalProcessing:
         res += separator
         for idx, entry in enumerate(entries, start=1):
             activity = entry.activity.replace("|", "\\|")
-            spaces = entry.student_labeled_spaces.replace("|", "\\|")
-            subspaces = entry.student_labeled_subspaces.replace("|", "\\|")
+            spaces = ", ".join(entry.student_labeled_spaces).replace("|", "\\|")
+            subspaces = ", ".join(entry.student_labeled_subspaces).replace("|", "\\|")
             reason = entry.Reason.replace("|", "\\|")
             row = (
                 f"| {idx} | {activity} | {spaces} | {subspaces} | "

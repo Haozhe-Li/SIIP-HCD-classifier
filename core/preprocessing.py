@@ -11,6 +11,7 @@ from dotenv import load_dotenv
 from langchain.chat_models import init_chat_model
 
 from core.data_table import List_Student_HCD_Label
+from core.utils import KNOWN_SPACES, KNOWN_SUBSPACES, normalize_list
 from core.model_config import DEFAULT_MODEL
 from core.prompt import DATA_EXTRACTION_SYS_PROMPT
 
@@ -84,6 +85,10 @@ class PreProcessor:
         """
         markdown_text = self._parse(file_path)
         table_data = self._extract_table_data(markdown_text)
+        # normalize spaces and subspaces to lowercase and fix typos
+        for entry in table_data.tables:
+            entry.HCD_Spaces = normalize_list(entry.HCD_Spaces, KNOWN_SPACES)
+            entry.HCD_Subspaces = normalize_list(entry.HCD_Subspaces, KNOWN_SUBSPACES)
         return table_data
 
     def display_list_data_table(self, list_data_table: List_Student_HCD_Label) -> None:

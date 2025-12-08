@@ -30,9 +30,13 @@ class Student_HCD_Label(BaseModel):
 ```
 
 ## Extraction Rules
-- Preserve exact wording from the report; do not summarize or infer content.
+- Preserve exact wording from the report in `activity`; do not summarize or infer content.
 - Multiple entries e.g. in "HCD Space(s)" or "HCD Subspace(s)" should be split into lists.
-  Example: "Explore/Reflect" → ["Explore", "Reflect"], "Ideate, Prototype" → ["Ideate", "Prototype"]
+  Example: "Explore/Reflect" → ["explore", "reflect"], "Ideate, Prototype" → ["ideate", "prototype"]
+- Normalize all HCD spaces and subspaces to lowercase.
+- If a space/subspace contains obvious typos (e.g., "Empthize", "Explor"), correct it to the nearest valid item.
+  Valid spaces: {understand, synthesize, ideate, prototype, implement}.
+  Valid subspaces: {explore, observe, empathize, reflect, debrief, organize, interpret, define, brainstorm, propose, plan, narrow concepts, create, engage, evaluate, iterate, support, sustain, evolve, execute}.
 - Exclude any commentary, explanations, or additional metadata.
 - Output only the data structured according to the model above.
 
@@ -72,7 +76,11 @@ class Student_HCD_Label(BaseModel):
 ## Extraction Rules
 - Build the `activity` string by concatenating the "Activity Title" and "Activity Description" with `": "` between them. If either field is empty, use the non-empty portion alone.
 - Split the "HCD space(s)" and "HCD process(es)" columns into lists. Treat every process entry as an HCD subspace name. Use commas, semicolons, ampersands, or slashes as delimiters, and trim surrounding whitespace from each item.
-- Preserve the student's exact wording; do not paraphrase or infer additional content.
+- Normalize all HCD spaces and subspaces to lowercase.
+- If a space/subspace contains obvious typos (e.g., "Empthize", "Explor"), correct it to the nearest valid item.
+  Valid spaces: {understand, synthesize, ideate, prototype, implement}.
+  Valid subspaces: {explore, observe, empathize, reflect, debrief, organize, interpret, define, brainstorm, propose, plan, narrow concepts, create, engage, evaluate, iterate, support, sustain, evolve, execute}.
+- Preserve the student's exact wording for `activity`; do not paraphrase or infer additional content.
 - Skip rows that are blank, contain only placeholder text (e.g., "Example"), or repeat instructions.
 - Maintain the original ordering of spaces and processes as written in the table.
 
@@ -91,8 +99,10 @@ You are the rubric enforcer for the Human-Centered Design (HCD) activity classif
 ## Output Contract
 Provide values that map cleanly onto the `LLM_HCD_Label` Pydantic schema:
 - `activity`: repeat the original activity string verbatim.
-- `HCD_Spaces`: ordered list containing one or more of {Understand, Synthesize, Ideate, Prototype, Implement}.
-- `HCD_Subspaces`: ordered list of subspaces that align one-to-one with `HCD_Spaces`.
+- `HCD_Spaces`: ordered list containing one or more of {understand, synthesize, ideate, prototype, implement} in lowercase.
+- `HCD_Subspaces`: ordered list of subspaces (lowercase) that align one-to-one with `HCD_Spaces`.
+
+- If a space/subspace contains typos, correct to the nearest valid item from the sets above.
 
 - It is valid for one activity to map to multiple distinct space/subspace pairs when evidence supports them (e.g., planning **and** testing in the same sentence).
 - Avoid repeating identical space/subspace combinations; mention each pair once even if multiple actions support it.
@@ -150,13 +160,13 @@ You are the final evaluator who determines whether the student's self-labeled HC
 ## Output Schema
 Return data that matches the `Output_Label` Pydantic model exactly:
 - `activity`: repeat the original activity string verbatim.
-- `student_labeled_spaces`: copy the student's spaces exactly as provided (join the list with a comma and a space, e.g., "Understand, Ideate").
-- `student_labeled_subspaces`: copy the student's subspaces exactly as provided (join the list with a comma and a space, e.g., "Empathize, Reflect").
+- `student_labeled_spaces`: list of normalized, lowercase spaces.
+- `student_labeled_subspaces`: list of normalized, lowercase subspaces.
 - `result`: integer flag where 1 = student label is correct, 0 = not enough evidence, -1 = student label is incorrect.
 - `Reason`: concise explanation (1-2 sentences) for assigning the result.
 
 ## Evaluation Rules
-1. Compare subspace names case-insensitively.
+1. Compare subspace names case-insensitively, using normalized lowercase values.
 2. **Correct (1)** when at least one student subspace overlaps with the LLM subspace list and the activity evidence supports that overlap. Additional student subspaces are acceptable as long as the evidence does not explicitly contradict them.
 3. **Not enough evidence (0)** when there is no overlap, yet the activity description lacks sufficient detail to confirm or deny the student's subspaces (e.g., ambiguous evidence, explicit uncertainty, or silence about the student's claims).
 4. **Incorrect (-1)** when every student subspace is either absent from the LLM list or directly contradicted by the activity evidence or the HCD rubric.
