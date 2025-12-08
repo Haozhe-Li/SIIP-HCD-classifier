@@ -73,8 +73,12 @@ class Output_Label(BaseModel):
     student_labeled_subspaces: list[str] = Field(
         ..., description="The student's labeled HCD subspaces (lowercased, normalized)"
     )
-    result: int = Field(
-        ..., description="1 if correct, 0 if not enough evidence, -1 if incorrect"
+    result: list[int] = Field(
+        ...,
+        description=(
+            "Per-subspace evaluation results aligned to student_labeled_subspaces. "
+            "Each item: 1=correct, 0=not enough evidence, -1=incorrect."
+        ),
     )
     Reason: str = Field(
         ..., description="The reason for marking the result as 1, 0 or -1"

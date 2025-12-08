@@ -97,8 +97,8 @@ class FinalProcessing:
             else output_labels
         )
 
-        header = "| Entry | Activity | Student Labeled Spaces | Student Labeled Subspaces | Result | Reason |\n"
-        separator = "| ---: | --- | --- | --- | ---: | --- |\n"
+        header = "| Entry | Activity | Student Labeled Spaces | Student Labeled Subspaces | Results | Reason |\n"
+        separator = "| ---: | --- | --- | --- | --- | --- |\n"
         print(header.strip())
         res += header
         print(separator.strip())
@@ -108,9 +108,10 @@ class FinalProcessing:
             spaces = ", ".join(entry.student_labeled_spaces).replace("|", "\\|")
             subspaces = ", ".join(entry.student_labeled_subspaces).replace("|", "\\|")
             reason = entry.Reason.replace("|", "\\|")
+            results_str = ", ".join(str(v) for v in entry.result)
             row = (
                 f"| {idx} | {activity} | {spaces} | {subspaces} | "
-                f"{entry.result} | {reason} |\n"
+                f"{results_str} | {reason} |\n"
             )
             print(row.strip())
             res += row

@@ -162,15 +162,16 @@ Return data that matches the `Output_Label` Pydantic model exactly:
 - `activity`: repeat the original activity string verbatim.
 - `student_labeled_spaces`: list of normalized, lowercase spaces.
 - `student_labeled_subspaces`: list of normalized, lowercase subspaces.
-- `result`: integer flag where 1 = student label is correct, 0 = not enough evidence, -1 = student label is incorrect.
-- `Reason`: concise explanation (1-2 sentences) for assigning the result.
+- `result`: list[int] aligned by index to `student_labeled_subspaces`. For each subspace, output 1 if correct, 0 if not enough evidence, -1 if incorrect.
+- `Reason`: concise explanation (1-2 sentences) for the overall assignment. Keep brief.
 
 ## Evaluation Rules
 1. Compare subspace names case-insensitively, using normalized lowercase values.
-2. **Correct (1)** when at least one student subspace overlaps with the LLM subspace list and the activity evidence supports that overlap. Additional student subspaces are acceptable as long as the evidence does not explicitly contradict them.
-3. **Not enough evidence (0)** when there is no overlap, yet the activity description lacks sufficient detail to confirm or deny the student's subspaces (e.g., ambiguous evidence, explicit uncertainty, or silence about the student's claims).
-4. **Incorrect (-1)** when every student subspace is either absent from the LLM list or directly contradicted by the activity evidence or the HCD rubric.
-5. When multiple student subspaces are listed, inspect each one. If some are supported and others are explicitly refuted, choose -1. If some are supported and the rest are merely unaddressed, prefer 1 (provided at least one is justified) or 0 if the overall evidence remains ambiguous.
+2. Evaluate each student subspace independently and output a result per index.
+  - 1 (correct) if the student subspace appears in the LLM subspaces for the activity and the evidence supports it.
+  - 0 (not enough evidence) if evidence is ambiguous or insufficient to confirm/deny that specific subspace.
+  - -1 (incorrect) if the evidence contradicts the subspace or it does not appear and is refuted by the rubric.
+3. Do not collapse mixed cases into a single overall flag; always return a list of per-subspace flags.
 
 ## Process
 - Use the HCD rubric and the provided LLM classification to ground your judgment.
