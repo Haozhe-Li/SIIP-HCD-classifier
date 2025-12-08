@@ -38,9 +38,14 @@ def _validate_upload(file: UploadFile) -> None:
 
     content_type = (file.content_type or "").lower()
     if not content_type:
-        content_type = "application/pdf" if file.filename.lower().endswith(".pdf") else ""
+        content_type = (
+            "application/pdf" if file.filename.lower().endswith(".pdf") else ""
+        )
 
-    if content_type not in {"application/pdf", "application/octet-stream"} and not file.filename.lower().endswith(".pdf"):
+    if content_type not in {
+        "application/pdf",
+        "application/octet-stream",
+    } and not file.filename.lower().endswith(".pdf"):
         raise HTTPException(status_code=400, detail="Uploaded file must be a PDF.")
 
 
@@ -83,7 +88,9 @@ async def classify_pdf(file: UploadFile = File(...)) -> ClassificationResponse:
 
     try:
         temp_path = await _persist_upload(file)
-        student_labels = await asyncio.to_thread(preprocessor.invoke, temp_path.as_posix())
+        student_labels = await asyncio.to_thread(
+            preprocessor.invoke, temp_path.as_posix()
+        )
         llm_labels = await processor.aclassify_table(student_labels)
         final_labels = await final_processor.afinal_eval(student_labels, llm_labels)
     except (ValueError, RuntimeError) as exc:
@@ -102,7 +109,7 @@ async def classify_pdf(file: UploadFile = File(...)) -> ClassificationResponse:
     )
 
 
-if __name__ == "__main__":
-    import uvicorn
+# if __name__ == "__main__":
+#     import uvicorn
 
-    uvicorn.run("gradio_gui:app", host="0.0.0.0", port=8001, reload=False)
+#     uvicorn.run("gradio_gui:app", host="0.0.0.0", port=8001, reload=False)
