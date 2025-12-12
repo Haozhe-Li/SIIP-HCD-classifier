@@ -14,7 +14,7 @@ from core.data_table import (
 )
 from core.model_config import FINAL_EVAL_MODEL
 from core.prompt import FINAL_EVAL_SYS_PROMPT
-from core.utils import KNOWN_SPACES, KNOWN_SUBSPACES, normalize_list
+from core.utils import get_logger, timed
 
 
 class FinalProcessing:
@@ -29,6 +29,7 @@ class FinalProcessing:
         """
         self._model = init_chat_model(FINAL_EVAL_MODEL)
         self.bound_model = self._model.with_structured_output(Output_Label)
+        self._logger = get_logger(self.__class__.__name__)
 
     @staticmethod
     def _build_eval_prompt(student_entry, llm_entry) -> list[dict[str, str]]:
@@ -58,11 +59,16 @@ class FinalProcessing:
         except RuntimeError:
             return asyncio.run(self.afinal_eval(student_hcd_label, llm_hcd_label))
 
-        response = [
-            self.bound_model.invoke(self._build_eval_prompt(student_entry, llm_entry))
-            for student_entry, llm_entry in zip(student_hcd_label.tables, llm_hcd_label)
-        ]
-        return List_Output_Label(labels=response)
+        with timed("postprocessing.final_eval"):
+            response = [
+                self.bound_model.invoke(
+                    self._build_eval_prompt(student_entry, llm_entry)
+                )
+                for student_entry, llm_entry in zip(
+                    student_hcd_label.tables, llm_hcd_label
+                )
+            ]
+            return List_Output_Label(labels=response)
 
     async def afinal_eval(
         self,
@@ -70,20 +76,24 @@ class FinalProcessing:
         llm_hcd_label: list[LLM_HCD_Label],
         max_concurrency: int = 4,
     ) -> List_Output_Label:
-        sem = asyncio.Semaphore(max_concurrency)
+        with timed("postprocessing.afinal_eval"):
+            sem = asyncio.Semaphore(max_concurrency)
 
-        async def evaluate(student_entry, llm_entry):
-            async with sem:
-                return await self.bound_model.ainvoke(
-                    self._build_eval_prompt(student_entry, llm_entry)
+            async def evaluate(student_entry, llm_entry):
+                async with sem:
+                    with timed("postprocessing.eval_entry"):
+                        return await self.bound_model.ainvoke(
+                            self._build_eval_prompt(student_entry, llm_entry)
+                        )
+
+            tasks = [
+                evaluate(student_entry, llm_entry)
+                for student_entry, llm_entry in zip(
+                    student_hcd_label.tables, llm_hcd_label
                 )
-
-        tasks = [
-            evaluate(student_entry, llm_entry)
-            for student_entry, llm_entry in zip(student_hcd_label.tables, llm_hcd_label)
-        ]
-        results = await asyncio.gather(*tasks)
-        return List_Output_Label(labels=results)
+            ]
+            results = await asyncio.gather(*tasks)
+            return List_Output_Label(labels=results)
 
     def display_output_labels(
         self, output_labels: List_Output_Label | list[Output_Label]

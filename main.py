@@ -12,6 +12,7 @@ from core.data_table import LLM_HCD_Label, List_Output_Label, List_Student_HCD_L
 from core.postprocessing import FinalProcessing
 from core.preprocessing import PreProcessor
 from core.processing import Processing
+from core.utils import configure_logging, get_logger, timed, timing_session
 
 
 class ClassificationResponse(BaseModel):
@@ -27,9 +28,33 @@ class RootResponse(BaseModel):
 
 app = FastAPI(title="SIIP HCD Classifier API", version="0.1.0")
 
+configure_logging()
+logger = get_logger(__name__)
+
 preprocessor = PreProcessor()
 processor = Processing()
 final_processor = FinalProcessing()
+
+
+@app.middleware("http")
+async def timing_middleware(request, call_next):
+    with timing_session() as collector:
+        with timed("http.request"):
+            response = await call_next(request)
+
+        logger.info(
+            "request completed",
+            extra={
+                "http": {
+                    "method": request.method,
+                    "path": request.url.path,
+                    "status": getattr(response, "status_code", None),
+                },
+                "timing": collector.to_log_extra(),
+            },
+        )
+
+        return response
 
 
 def _validate_upload(file: UploadFile) -> None:
@@ -87,18 +112,23 @@ async def classify_pdf(file: UploadFile = File(...)) -> ClassificationResponse:
     temp_path: Path | None = None
 
     try:
-        temp_path = await _persist_upload(file)
-        student_labels = await asyncio.to_thread(
-            preprocessor.invoke, temp_path.as_posix()
-        )
-        llm_labels = await processor.aclassify_table(student_labels)
-        final_labels = await final_processor.afinal_eval(student_labels, llm_labels)
+        with timed("io.persist_upload"):
+            temp_path = await _persist_upload(file)
+        with timed("preprocessing"):
+            student_labels = await asyncio.to_thread(
+                preprocessor.invoke, temp_path.as_posix()
+            )
+        with timed("processing"):
+            llm_labels = await processor.aclassify_table(student_labels)
+        with timed("postprocessing"):
+            final_labels = await final_processor.afinal_eval(student_labels, llm_labels)
     except (ValueError, RuntimeError) as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
     finally:
         if temp_path is not None:
             try:
-                os.remove(temp_path)
+                with timed("io.cleanup"):
+                    os.remove(temp_path)
             except FileNotFoundError:
                 pass
 
