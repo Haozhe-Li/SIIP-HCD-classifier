@@ -14,7 +14,7 @@ from langchain.chat_models import init_chat_model
 from core.data_table import List_Student_HCD_Label, LLM_HCD_Label
 from core.model_config import DEFAULT_MODEL
 from core.prompt import ACTIVITY_EVAL_SYS_PROMPT
-from core.utils import KNOWN_SPACES, KNOWN_SUBSPACES, get_logger, normalize_list, timed
+from core.utils import KNOWN_SPACES, KNOWN_SUBSPACES, normalize_list
 
 
 class Processing:
@@ -29,7 +29,6 @@ class Processing:
         """
         self._model = init_chat_model(DEFAULT_MODEL)
         self.bound_model = self._model.with_structured_output(LLM_HCD_Label)
-        self._logger = get_logger(self.__class__.__name__)
 
     @staticmethod
     def _build_activity_prompt(activity: str) -> list[dict[str, str]]:
@@ -46,22 +45,18 @@ class Processing:
 
     def classify_activity(self, activity: str) -> LLM_HCD_Label:
         """Classify a single activity description using the configured LLM."""
-        with timed("processing.classify_activity"):
-            response = self.bound_model.invoke(self._build_activity_prompt(activity))
-            # normalize model outputs
-            response.HCD_Spaces = normalize_list(response.HCD_Spaces, KNOWN_SPACES)
-            response.HCD_Subspaces = normalize_list(
-                response.HCD_Subspaces, KNOWN_SUBSPACES
-            )
-            return response
+        response = self.bound_model.invoke(self._build_activity_prompt(activity))
+        # normalize model outputs
+        response.HCD_Spaces = normalize_list(response.HCD_Spaces, KNOWN_SPACES)
+        response.HCD_Subspaces = normalize_list(response.HCD_Subspaces, KNOWN_SUBSPACES)
+        return response
 
     async def aclassify_activity(self, activity: str) -> LLM_HCD_Label:
         """Async variant of :py:meth:`classify_activity`."""
-        with timed("processing.aclassify_activity"):
-            resp = await self.bound_model.ainvoke(self._build_activity_prompt(activity))
-            resp.HCD_Spaces = normalize_list(resp.HCD_Spaces, KNOWN_SPACES)
-            resp.HCD_Subspaces = normalize_list(resp.HCD_Subspaces, KNOWN_SUBSPACES)
-            return resp
+        resp = await self.bound_model.ainvoke(self._build_activity_prompt(activity))
+        resp.HCD_Spaces = normalize_list(resp.HCD_Spaces, KNOWN_SPACES)
+        resp.HCD_Subspaces = normalize_list(resp.HCD_Subspaces, KNOWN_SUBSPACES)
+        return resp
 
     def display_list_data_table(self, table_data: list[LLM_HCD_Label]) -> None:
         """Display the extracted List_Student_HCD_Label in a readable format.
@@ -97,15 +92,14 @@ class Processing:
     async def aclassify_table(
         self, table_data: List_Student_HCD_Label, max_concurrency: int = 4
     ) -> list[LLM_HCD_Label]:
-        with timed("processing.aclassify_table"):
-            sem = asyncio.Semaphore(max_concurrency)
+        sem = asyncio.Semaphore(max_concurrency)
 
-            async def classify(entry_activity: str) -> LLM_HCD_Label:
-                async with sem:
-                    return await self.aclassify_activity(entry_activity)
+        async def classify(entry_activity: str) -> LLM_HCD_Label:
+            async with sem:
+                return await self.aclassify_activity(entry_activity)
 
-            tasks = [classify(entry.activity) for entry in table_data.tables]
-            return await asyncio.gather(*tasks)
+        tasks = [classify(entry.activity) for entry in table_data.tables]
+        return await asyncio.gather(*tasks)
 
 
 if __name__ == "__main__":
