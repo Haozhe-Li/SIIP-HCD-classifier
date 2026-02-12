@@ -1,6 +1,7 @@
 import asyncio
 import os
 import sys
+from typing import Union
 
 sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
@@ -86,7 +87,7 @@ class FinalProcessing:
         return List_Output_Label(labels=results)
 
     def display_output_labels(
-        self, output_labels: List_Output_Label | list[Output_Label]
+        self, output_labels: Union[List_Output_Label, list[Output_Label]]
     ) -> str:
         """Display the extracted Output_Label entries in a readable format."""
         res = ""

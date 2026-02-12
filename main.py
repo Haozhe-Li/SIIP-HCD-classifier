@@ -12,6 +12,7 @@ from core.data_table import LLM_HCD_Label, List_Output_Label, List_Student_HCD_L
 from core.postprocessing import FinalProcessing
 from core.preprocessing import PreProcessor
 from core.processing import Processing
+from database.db import fetch_unlabeld_activity, label_activity
 
 
 class ClassificationResponse(BaseModel):
@@ -23,6 +24,24 @@ class ClassificationResponse(BaseModel):
 class RootResponse(BaseModel):
     message: str
     endpoints: dict[str, str]
+
+
+class UnlabeledActivityResponse(BaseModel):
+    rowid: int | None
+    Activity: str | None
+
+
+class LabelActivityRequest(BaseModel):
+    rowid: int
+    HCD_Space: str
+    HCD_Subspace: str
+    Reason: str
+    Annotator: str
+
+
+class LabelActivityResponse(BaseModel):
+    success: bool
+    message: str
 
 
 app = FastAPI(title="SIIP HCD Classifier API", version="0.1.0")
@@ -109,7 +128,40 @@ async def classify_pdf(file: UploadFile = File(...)) -> ClassificationResponse:
     )
 
 
-# if __name__ == "__main__":
-#     import uvicorn
+@app.get("/fetch-unlabeled", response_model=UnlabeledActivityResponse)
+async def fetch_unlabeled() -> UnlabeledActivityResponse:
+    """Fetch one unlabeled activity from the database."""
+    activity = await fetch_unlabeld_activity()
+    
+    if activity is None:
+        return UnlabeledActivityResponse(rowid=None, Activity=None)
+    
+    return UnlabeledActivityResponse(
+        rowid=activity.get("rowid"),
+        Activity=activity.get("Activity")
+    )
 
-#     uvicorn.run("gradio_gui:app", host="0.0.0.0", port=8001, reload=False)
+
+@app.post("/label-activity", response_model=LabelActivityResponse)
+async def label_activity_endpoint(request: LabelActivityRequest) -> LabelActivityResponse:
+    """Label an activity with HCD classification."""
+    success = await label_activity(
+        activity_id=request.rowid,
+        HCD_Space=request.HCD_Space,
+        HCD_Subspace=request.HCD_Subspace,
+        reason=request.Reason,
+        annotator=request.Annotator
+    )
+    
+    if success:
+        return LabelActivityResponse(
+            success=True,
+            message=f"Activity {request.rowid} labeled successfully"
+        )
+    else:
+        raise HTTPException(
+            status_code=500,
+            detail="Failed to label activity"
+        )
+
+

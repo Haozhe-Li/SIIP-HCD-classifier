@@ -33,10 +33,10 @@ KNOWN_SUBSPACES = {
 }
 
 
-def _normalize_item(item: str, known: set[str]) -> str | None:
+def _normalize_item(item: str, known: set[str]) -> str:
     s = (item or "").strip().lower()
     if not s:
-        return None
+        return ""
     if s in known:
         return s
     # try to match by removing extra punctuation

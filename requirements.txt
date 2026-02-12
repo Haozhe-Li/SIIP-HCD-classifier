@@ -1,8 +1,9 @@
 PyMuPDF==1.24.10
-langchain==1.0.2
+langchain
 pydantic==2.12.3
 python-dotenv==1.2.1
-langchain-openai==1.0.1
+langchain-openai
 fastapi==0.115.5
 uvicorn[standard]==0.30.1
 python-multipart==0.0.9
+d1-client==0.1.0
