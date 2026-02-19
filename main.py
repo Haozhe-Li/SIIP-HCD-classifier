@@ -12,7 +12,14 @@ from core.data_table import LLM_HCD_Label, List_Output_Label, List_Student_HCD_L
 from core.postprocessing import FinalProcessing
 from core.preprocessing import PreProcessor
 from core.processing import Processing
-from database.db import fetch_unlabeld_activity, label_activity
+from database.db import (
+    fetch_unlabeld_activity,
+    label_activity,
+    get_activity_annotations,
+)
+from dotenv import load_dotenv
+
+load_dotenv()
 
 
 class ClassificationResponse(BaseModel):
@@ -42,6 +49,27 @@ class LabelActivityRequest(BaseModel):
 class LabelActivityResponse(BaseModel):
     success: bool
     message: str
+    inserted_new: bool = False
+
+
+class ActivityAnnotation(BaseModel):
+    rowid: int
+    Activity: str
+    HCD_Space: str
+    HCD_Subspace: str
+    Reason: str
+    Annotator: str
+
+
+class ActivityGroup(BaseModel):
+    activity: str
+    count: int
+    annotations: list[ActivityAnnotation]
+
+
+class ActivityAnnotationsResponse(BaseModel):
+    total_activities: int
+    groups: list[ActivityGroup]
 
 
 app = FastAPI(title="SIIP HCD Classifier API", version="0.1.0")
@@ -95,6 +123,9 @@ async def root() -> RootResponse:
         endpoints={
             "health": "/health",
             "classify": "/classify",
+            "fetch-unlabeled": "/fetch-unlabeled",
+            "label-activity": "/label-activity",
+            "activity-annotations": "/activity-annotations",
             "docs": "/docs",
         },
     )
@@ -132,36 +163,80 @@ async def classify_pdf(file: UploadFile = File(...)) -> ClassificationResponse:
 async def fetch_unlabeled() -> UnlabeledActivityResponse:
     """Fetch one unlabeled activity from the database."""
     activity = await fetch_unlabeld_activity()
-    
+
     if activity is None:
         return UnlabeledActivityResponse(rowid=None, Activity=None)
-    
+
     return UnlabeledActivityResponse(
-        rowid=activity.get("rowid"),
-        Activity=activity.get("Activity")
+        rowid=activity.get("rowid"), Activity=activity.get("Activity")
     )
 
 
 @app.post("/label-activity", response_model=LabelActivityResponse)
-async def label_activity_endpoint(request: LabelActivityRequest) -> LabelActivityResponse:
-    """Label an activity with HCD classification."""
-    success = await label_activity(
+async def label_activity_endpoint(
+    request: LabelActivityRequest,
+) -> LabelActivityResponse:
+    """
+    Label an activity with HCD classification.
+
+    If the target row was already labeled by another annotator, a new duplicate
+    row is automatically inserted so both annotations are preserved.
+    The response field `inserted_new` will be True in that case.
+    """
+    result = await label_activity(
         activity_id=request.rowid,
         HCD_Space=request.HCD_Space,
         HCD_Subspace=request.HCD_Subspace,
         reason=request.Reason,
-        annotator=request.Annotator
+        annotator=request.Annotator,
     )
-    
-    if success:
-        return LabelActivityResponse(
-            success=True,
-            message=f"Activity {request.rowid} labeled successfully"
+
+    if not result["success"]:
+        raise HTTPException(status_code=500, detail="Failed to label activity")
+
+    inserted_new = result["inserted_new"]
+    if inserted_new:
+        msg = (
+            f"Activity {request.rowid} was already labeled. "
+            f"A new duplicate entry has been created for annotator '{request.Annotator}'."
         )
     else:
-        raise HTTPException(
-            status_code=500,
-            detail="Failed to label activity"
+        msg = f"Activity {request.rowid} labeled successfully by '{request.Annotator}'."
+
+    return LabelActivityResponse(success=True, message=msg, inserted_new=inserted_new)
+
+
+@app.get("/activity-annotations", response_model=ActivityAnnotationsResponse)
+async def activity_annotations() -> ActivityAnnotationsResponse:
+    """
+    Return all labeled activities grouped by Activity text.
+
+    Fetches every labeled row and groups them by their Activity value.
+    Each group shows all annotations for that activity (from different
+    annotators / auto-duplicated entries), making comparison easy.
+    """
+    rows = await get_activity_annotations()
+
+    # Group by Activity text
+    groups_map: dict[str, list[ActivityAnnotation]] = {}
+    for row in rows:
+        key = row.get("Activity", "")
+        ann = ActivityAnnotation(
+            rowid=row.get("rowid"),
+            Activity=key,
+            HCD_Space=row.get("HCD_Space", ""),
+            HCD_Subspace=row.get("HCD_Subspace", ""),
+            Reason=row.get("Reason", ""),
+            Annotator=row.get("Annotator", ""),
         )
+        groups_map.setdefault(key, []).append(ann)
 
+    groups = [
+        ActivityGroup(activity=act, count=len(anns), annotations=anns)
+        for act, anns in groups_map.items()
+    ]
 
+    return ActivityAnnotationsResponse(
+        total_activities=len(groups),
+        groups=groups,
+    )
