@@ -1,4 +1,3 @@
-import asyncio
 import os
 from d1_client import AsyncD1Client
 from typing import Optional
@@ -120,14 +119,22 @@ async def label_activity(
 
 async def get_activity_annotations() -> list[dict]:
     """
-    Return all labeled rows grouped by Activity text.
-    Useful for comparing annotations from multiple annotators across all activities.
+    Return labeled rows for activities that have been annotated more than once.
+    Only includes activities where multiple annotators have submitted a label,
+    making it easy to compare differing results for the same activity.
     """
     sql = """
         SELECT rowid, Activity, HCD_Space, HCD_Subspace, Reason, Annotator
         FROM labels
         WHERE HCD_Space IS NOT NULL
           AND HCD_Space != ''
+          AND Activity IN (
+              SELECT Activity
+              FROM labels
+              WHERE HCD_Space IS NOT NULL AND HCD_Space != ''
+              GROUP BY Activity
+              HAVING COUNT(*) > 1
+          )
         ORDER BY Activity ASC, rowid ASC
     """
     try:

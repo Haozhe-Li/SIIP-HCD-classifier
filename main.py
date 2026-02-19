@@ -64,6 +64,7 @@ class ActivityAnnotation(BaseModel):
 class ActivityGroup(BaseModel):
     activity: str
     count: int
+    annotators: list[str]
     annotations: list[ActivityAnnotation]
 
 
@@ -209,15 +210,16 @@ async def label_activity_endpoint(
 @app.get("/activity-annotations", response_model=ActivityAnnotationsResponse)
 async def activity_annotations() -> ActivityAnnotationsResponse:
     """
-    Return all labeled activities grouped by Activity text.
+    Return activities that have been labeled by more than one annotator.
 
-    Fetches every labeled row and groups them by their Activity value.
-    Each group shows all annotations for that activity (from different
-    annotators / auto-duplicated entries), making comparison easy.
+    Only activities with 2+ label entries are included — these are exactly
+    the cases where concurrent annotators labeled the same activity and a
+    duplicate row was auto-inserted.  Use this to compare and reconcile
+    differing annotation results for the same activity.
     """
     rows = await get_activity_annotations()
 
-    # Group by Activity text
+    # Group by Activity text (SQL already filters to count > 1)
     groups_map: dict[str, list[ActivityAnnotation]] = {}
     for row in rows:
         key = row.get("Activity", "")
@@ -232,7 +234,12 @@ async def activity_annotations() -> ActivityAnnotationsResponse:
         groups_map.setdefault(key, []).append(ann)
 
     groups = [
-        ActivityGroup(activity=act, count=len(anns), annotations=anns)
+        ActivityGroup(
+            activity=act,
+            count=len(anns),
+            annotators=[a.Annotator for a in anns],
+            annotations=anns,
+        )
         for act, anns in groups_map.items()
     ]
 
