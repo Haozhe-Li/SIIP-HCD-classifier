@@ -16,6 +16,7 @@ from database.db import (
     fetch_unlabeld_activity,
     label_activity,
     get_activity_annotations,
+    get_label_stats,
 )
 from dotenv import load_dotenv
 
@@ -73,6 +74,12 @@ class ActivityAnnotationsResponse(BaseModel):
     groups: list[ActivityGroup]
 
 
+class LabelStatsResponse(BaseModel):
+    total: int
+    labeled: int
+    unlabeled: int
+
+
 app = FastAPI(title="SIIP HCD Classifier API", version="0.1.0")
 
 preprocessor = PreProcessor()
@@ -127,6 +134,7 @@ async def root() -> RootResponse:
             "fetch-unlabeled": "/fetch-unlabeled",
             "label-activity": "/label-activity",
             "activity-annotations": "/activity-annotations",
+            "label-stats": "/label-stats",
             "docs": "/docs",
         },
     )
@@ -247,3 +255,12 @@ async def activity_annotations() -> ActivityAnnotationsResponse:
         total_activities=len(groups),
         groups=groups,
     )
+
+
+@app.get("/label-stats", response_model=LabelStatsResponse)
+async def label_stats() -> LabelStatsResponse:
+    """
+    Return statistics about activity labeling progress.
+    """
+    stats = await get_label_stats()
+    return LabelStatsResponse(**stats)

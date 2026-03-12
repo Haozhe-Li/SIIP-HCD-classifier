@@ -1,0 +1,200 @@
+1. Refined the project problem statement — Rewrote the problem description to better capture the technical needs and measurable outcomes.
+2. Met with the client to clarify requirements — Asked targeted engineering questions to fill in missing specifications or constraints.
+3. Collected stakeholder feedback — Gathered input from users, technicians, or advisors to understand real-world operational needs.
+4. Created initial engineering requirements — Drafted early performance requirements such as loads, voltages, flow rates, or tolerances.
+5. Updated project scope based on new information — Added or removed features after learning more about constraints or user needs.
+6. Developed early system goals — Outlined what the final engineered system should achieve functionally and technically.
+7. Set up team roles and responsibilities — Defined each member’s primary engineering responsibilities (CAD, circuits, software, testing).
+8. Created the initial Gantt chart — Built a timeline showing design, prototyping, testing, and review milestones.
+9. Identified project constraints — Documented limits such as cost caps, weight restrictions, power limits, or safety rules.
+10. Reviewed existing documentation from the client — Analyzed drawings, manuals, or reports to understand current system performance.
+11. Conducted literature review on similar engineering systems — Summarized previous academic or industry approaches.
+12. Researched relevant industry standards — Identified applicable ASME, IEEE, ISO, ASTM, or NFPA guidelines.
+13. Compared existing commercial solutions — Looked at specs, features, and performance claims of similar products.
+14. Looked up patents related to our design — Reviewed patent diagrams and claims to understand prior art.
+15. Analyzed benchmark product specifications — Compared power, size, capacity, efficiency, and reliability across products.
+16. Investigated material options — Researched suitable metals, polymers, composites, or electronic components.
+17. Studied similar engineering projects from past years — Identified successful design choices and common pitfalls.
+18. Evaluated cost ranges of comparable systems — Gathered typical pricing for main components and subsystems.
+19. Reviewed safety regulations applicable to our design — Determined whether OSHA, UL, IEC, or other rules apply.
+20. Researched environmental impact considerations — Looked at recyclability, emissions, power consumption, and waste.
+21. Sketched multiple design concepts — Produced quick mechanical or electrical sketches to visualize alternatives.
+22. Brainstormed alternative engineering solutions — Generated as many feasible approaches as possible.
+23. Developed a functional block diagram — Broke the system into major functions and linked them logically.
+24. Created use-case scenarios — Outlined how the product will be used in real operational environments.
+25. Built a morphological chart for concept combinations — Explored all valid combinations of subsystem options.
+26. Generated rough CAD sketches — Created early 3D shapes to evaluate layout ideas and geometry.
+27. Proposed preliminary subsystem layouts — Organized sensors, motors, circuits, or components on a rough system layout.
+28. Discussed feasibility with faculty advisors — Presented high-level concepts and received expert critique.
+29. Identified potential risks in early concepts — Listed failure points, difficult integrations, or unreliable assumptions.
+30. Narrowed concepts to a top set for evaluation — Selected the most promising alternatives for deeper analysis.
+31. Built a concept selection matrix — Compared the top alternatives using weighted criteria.
+32. Evaluated manufacturability of each concept — Assessed how easy each concept is to machine, print, or assemble.
+33. Analyzed cost estimates for major alternatives — Calculated approximate subsystem and total system costs.
+34. Assessed engineering feasibility of proposed concepts — Checked whether the design can meet required performance levels.
+35. Compared performance trade-offs — Evaluated speed vs. cost, size vs. strength, accuracy vs. complexity.
+36. Met with the client to present concept options — Received approval or feedback on engineering direction.
+37. Gathered advisor feedback on technical direction — Incorporated faculty suggestions into updated concepts.
+38. Updated concept diagrams — Improved or corrected earlier sketches and diagrams based on feedback.
+39. Selected final design direction — Chose the concept the team will carry forward to detailed design.
+40. Documented rationale for concept selection — Wrote an explanation supporting the final choice using data.
+41. Created a detailed system architecture diagram — Mapped all subsystems and their interactions.
+42. Defined subsystem boundaries — Specified what each subsystem is responsible for and what it is not.
+43. Developed the interface specification between subsystems — Documented mechanical mounts, electrical connections, and communication protocols.
+44. Produced a preliminary bill of materials (BOM) — Built a list of parts including estimated costs and sources.
+45. Estimated overall system cost — Aggregated subsystem costs into a full project-level estimate.
+46. Updated the system block diagram — Refined signal flows and function groupings.
+47. Identified required sensors/actuators — Selected candidate components based on required ranges and accuracy.
+48. Outlined control system requirements — Defined feedback loops, sampling rates, and control logic.
+49. Calculated high-level performance estimates — Estimated forces, power consumption, speeds, or output levels.
+50. Conducted preliminary FMEA — Listed potential failure modes and assessed severity and likelihood.
+51. Developed detailed CAD models — Produced full 3D part models with realistic geometry.
+52. Ran preliminary stress calculations — Evaluated loads using hand calculations or simple FEA.
+53. Designed preliminary circuits — Drafted schematics showing power paths, sensors, and signal processing.
+54. Developed a wiring diagram — Created a map of all electrical connections in the system.
+55. Created a rough PCB layout — Designed a board outline and arranged components.
+56. Built MATLAB/Simulink models — Simulated system dynamics or control loops.
+57. Designed initial control algorithms — Wrote pseudocode or flowcharts for system behavior.
+58. Modeled thermal loads — Estimated heat generation and necessary cooling approaches.
+59. Calculated fluid flow or pressure requirements — Applied basic fluid mechanics to design piping or pumps.
+60. Selected materials and components based on calculations — Justified choices using engineering properties.
+61. 3D printed prototype parts — Produced low-cost physical models to verify geometry.
+62. Machined or fabricated simple components — Created metal or plastic parts using shop tools.
+63. Soldered prototype circuits — Built early boards for testing signals and connections.
+64. Assembled a breadboard circuit — Prototyped electronic functionality quickly.
+65. Set up test rigs for experiments — Built fixtures or mounts to support repeatable testing.
+66. Built first mechanical prototype — Created an early version of structural or moving parts.
+67. Developed prototype firmware — Wrote initial code for reading sensors or driving actuators.
+68. Created early software UI — Implemented basic screens, control panels, or visualization tools.
+69. Manufactured a second iteration of prototype parts — Corrected earlier geometry or fit problems.
+70. Performed basic fit-checks on assembled modules — Verified that parts interface correctly.
+71. Wrote a test plan — Documented what tests will be done, how, and why.
+72. Built a test procedure for a subsystem — Created step-by-step instructions so results are repeatable.
+73. Set up instrumentation for data collection — Configured sensors, DAQs, oscilloscopes, or logging software.
+74. Performed load or stress tests — Measured structural or mechanical capacity under load.
+75. Measured electrical performance — Checked voltages, currents, noise levels, or signal integrity.
+76. Ran motion tests on mechanical components — Observed actuation speed, friction, or alignment.
+77. Conducted usability testing with sample users — Asked representative users to try the prototype.
+78. Recorded test data for analysis — Stored measurements in spreadsheets or databases.
+79. Identified failure modes from test results — Found weak points or unexpected behaviors.
+80. Updated design based on test findings — Made revisions to improve performance or reliability.
+81. Integrated mechanical components — Assembled moving parts, frames, mounts, or enclosures.
+82. Connected sensors to the microcontroller — Set up wiring, connectors, and pin assignments.
+83. Loaded and tested firmware on the prototype — Uploaded code and checked sensor readings or actuator outputs.
+84. Merged hardware and software subsystems — Connected physical components to code running on the controller or PC.
+85. Debugged integration issues — Fixed miswiring, incorrect assumptions, or code errors.
+86. Verified electrical connections and signal integrity — Checked continuity, noise, and power stability.
+87. Calibrated sensors and actuators — Performed procedures to ensure correct readings or motions.
+88. Updated wiring or routing after integration problems — Rerouted cables or changed component placement.
+89. Conducted full-system dry run — Operated the system without load or under safe conditions.
+90. Documented integration progress — Wrote down findings, problems, and next steps.
+91. Updated weekly engineering notebook entries — Documented work completed, results, and challenges.
+92. Revised design documentation — Updated drawings, schematics, or models after changes.
+93. Prepared slides for weekly meetings — Created visuals showing data, models, and progress.
+94. Wrote a progress report for the team — Summarized tasks completed and planned work.
+95. Met with advisors for design review — Presented updates and received technical feedback.
+96. Submitted updated CAD or code to repository — Uploaded revisions to GitHub, OneDrive, or a shared drive.
+97. Updated risk register — Added new risks or revised likelihood/severity ratings.
+98. Collected and summarized teammate tasks — Compiled individual contributions into a team-level report.
+99. Prepared material for Preliminary Design Review (PDR) — Organized system-level design documentation and slides.
+100. Prepared material for Critical Design Review (CDR) — Created detailed design evidence including calculations, drawings, and test data.
+101. Optimized CAD models for reduced material usage — Reduced wall thicknesses and added ribs or fillets while confirming safety factors with quick FEA checks.
+102. Reviewed tolerance analysis for key components — Updated tolerance stack-ups and revisited fits to ensure assembly remains robust under worst-case conditions.
+103. Performed circuit simulations to validate design assumptions — Used SPICE or equivalent tools to check gain, bandwidth, and stability before ordering boards.
+104. Updated control system block diagrams — Refined sensor, actuator, and feedback connections to reflect the current architecture.
+105. Adjusted actuator selection based on torque analysis — Compared datasheets and recalculated stall/continuous torque margins for expected duty cycles.
+106. Revised thermal model after updated heat-load assumptions — Recomputed junction temperatures and heatsink requirements using new power estimates.
+107. Conducted supplier research for long-lead components — Identified alternatives and documented lead times and minimum order quantities to reduce schedule risk.
+108. Completed wiring harness revisions — Shortened runs, added strain relief, and updated labels to improve serviceability and safety.
+109. Updated PCB routing to reduce interference — Separated analog and digital grounds, tightened return paths, and improved decoupling placement.
+110. Held internal design review with team — Walked through open issues, captured action items, and recorded decisions in the design log.
+111. Produced detailed engineering drawings — Added dimensions, tolerances, GD&T, and notes sufficient for fabrication without ambiguity.
+112. Created assembly instructions for prototype build — Authored step-by-step procedures with photos and torque specs for repeatable assembly.
+113. Validated sensor accuracy using calibration equipment — Compared readings against a reference instrument and computed calibration coefficients.
+114. Bench-tested microcontroller firmware — Verified peripheral drivers, interrupt timing, and error handling on a development board.
+115. Researched IP ratings for enclosure design — Determined sealing, gasket, and venting needs to achieve the target ingress protection level.
+116. Generated CFD mesh for airflow modeling — Built a clean geometry and verified mesh quality metrics before running simulations.
+117. Refined FEA boundary conditions — Adjusted constraints and loads to better reflect real mounting and contact conditions.
+118. Prepared parts list for machine shop — Consolidated material specs, quantities, and drawing numbers to streamline fabrication.
+119. Ordered electronic components for prototype — Placed BOM orders, tracked shipment ETAs, and documented substitutions when needed.
+120. Laser-cut prototype panel components — Converted CAD to cut files and validated hole sizes and kerf compensation after fabrication.
+121. Reviewed machining tolerances with shop staff — Discussed critical dimensions and finish requirements to prevent rework.
+122. Implemented version control for simulation files — Organized models and results with clear commit messages and tagged baselines.
+123. Conducted cost-benefit analysis for different materials — Compared performance, machinability, and cost to select the most economical option that meets requirements.
+124. Performed weldment design calculations — Checked joint design, throat sizes, and residual stress considerations against expected loads.
+125. Designed custom test fixture components — Modeled fixtures to constrain parts and enable repeatable measurements during testing.
+126. Analyzed system noise sources — Traced EMI/RFI and mechanical vibration pathways and noted mitigation strategies.
+127. Evaluated subsystem redundancy options — Considered backup sensors or failover modes to improve reliability for critical functions.
+128. Developed calibration routine for embedded system — Scripted a guided procedure that stores offsets and scale factors in nonvolatile memory.
+129. Reviewed industry standards for compliance — Mapped requirements to design features and created a gap list for remediation.
+130. Printed engineering drawings for advisor review — Prepared redline-ready sets and captured feedback for drawing updates.
+131. Updated BOM with supplier lead times — Flagged long-lead items and proposed order dates to protect the build schedule.
+132. Measured deflection of prototype under load — Applied known forces and compared measured displacement to analytical predictions.
+133. Performed time-study on assembly process — Timed each step to identify bottlenecks and opportunities for mistake-proofing.
+134. Completed hazard analysis for prototype testing — Documented pinch points, hot surfaces, and electrical hazards with mitigations.
+135. Added safety interlocks to design — Incorporated switches and software checks that prevent unsafe operation states.
+136. Integrated wireless communication module — Brought up drivers, paired devices, and verified data throughput and latency.
+137. Validated motor driver operation — Checked current limits, thermal behavior, and fault reporting under various loads.
+138. Rewrote firmware for better timing performance — Optimized ISR priorities and reduced blocking calls to improve responsiveness.
+139. Developed GUI improvements based on user feedback — Simplified workflows, added status indicators, and improved error messages.
+140. Validated algorithm behavior using test datasets — Ran recorded data through the code and compared outputs to expected results.
+141. Updated design notebook with new test results — Inserted plots, tables, and interpretation notes tied to requirement IDs.
+142. Revised power budget calculations — Accounted for worst-case current draw, startup surges, and standby consumption.
+143. Conducted failure-mode experiments on subsystem — Intentionally induced faults to confirm protections and recovery behavior.
+144. Created vibration test plan — Defined excitation profiles, instrumentation, and pass/fail criteria for resonance checks.
+145. Ran endurance test on mechanical subsystem — Executed extended duty cycles to evaluate wear and thermal stability.
+146. Analyzed test data in MATLAB — Cleaned datasets, computed statistics, and generated plots to summarize performance.
+147. Created troubleshooting guide for team members — Documented common failure symptoms, root causes, and quick checks.
+148. Discussed results in weekly advisor meeting — Presented highlights, open issues, and proposed next steps for approval.
+149. Produced updated layout for enclosure — Adjusted component placement to improve airflow, service access, and cable routing.
+150. Designed mounting bracket for internal components — Sized fasteners and checked stiffness to minimize vibration and misalignment.
+151. Conducted compliance checklist review — Stepped through applicable clauses and recorded objective evidence for each item.
+152. Reviewed client feedback and made design changes — Tagged change requests and implemented the highest-impact updates first.
+153. Measured current draw of prototype system — Captured steady-state and transient currents to validate the power supply margin.
+154. Validated communication between subsystem modules — Exercised message traffic and confirmed error handling across interfaces.
+155. Tested error-handling routines in firmware — Injected simulated faults and confirmed graceful recovery without data loss.
+156. Replaced faulty prototype components — Diagnosed suspect parts, swapped them, and retested the affected functions.
+157. Performed alignment checks on rotating assemblies — Used dial indicators and feeler gauges to minimize runout and misalignment.
+158. Measured thermal response using infrared camera — Identified hotspots and verified that component temperatures stayed within limits.
+159. Updated integration diagram after testing revisions — Reflected rerouted cables and swapped parts in the latest system schematic.
+160. Prepared data summaries for project documentation — Condensed large datasets into key metrics, tables, and representative plots.
+161. Drafted poster for design exposition — Outlined the problem, approach, results, and impact with clear visuals.
+162. Recorded demonstration videos for testing — Captured setup, procedure, and outcomes to share with stakeholders asynchronously.
+163. Fabricated updated prototype components — Implemented design changes and checked compatibility with existing assemblies.
+164. Created custom cabling for internal connections — Cut to length, crimped terminals, and applied labels for traceability.
+165. Revised safety documentation for lab testing — Updated SOPs, PPE requirements, and emergency procedures based on new risks.
+166. Completed subsystem acceptance tests — Ran defined checks and documented pass/fail results against requirements.
+167. Ran benchmark tests on prototype performance — Compared the system against baseline targets and noted deltas.
+168. Installed prototype in testing environment — Mounted the unit, connected services, and verified readiness for trials.
+169. Measured pressure drops in fluid pathways — Instrumented the system and confirmed losses matched the model within tolerance.
+170. Conducted leak tests on enclosures or lines — Applied pressure or vacuum and monitored for decay and soap-bubble indications.
+171. Balanced rotating components — Applied trial weights and used a balancer to reduce vibration to acceptable levels.
+172. Cleaned and organized lab bench for efficiency — Labeled bins, routed cables, and set ESD protection for safer work.
+173. Built a small-scale mock-up to test ergonomics — Checked reach, visibility, and access for maintenance tasks.
+174. Validated sensor linearity across operating range — Collected calibration points and computed regression error metrics.
+175. Carried out code review with teammates — Examined logic, naming, and edge cases; documented findings in the repo.
+176. Implemented logging and telemetry in firmware — Added timestamped events and ring buffers to aid future debugging.
+177. Refactored software modules for clarity — Split complex functions, added unit tests, and improved documentation.
+178. Created unit tests for control algorithms — Tested boundary conditions and failure modes using simulated inputs.
+179. Assessed manufacturability with DFM checklist — Reviewed features prone to warpage, tool access, and unnecessary complexity.
+180. Updated 3D print settings for strength and accuracy — Tuned infill, layer height, and orientation; validated dimensions post-print.
+181. Negotiated quotes with vendors — Requested revisions on pricing and lead time, and documented final terms.
+182. Qualified alternate suppliers for risk mitigation — Compared quality history and requested samples to diversify sourcing.
+183. Created acceptance criteria for incoming parts — Defined inspection points, tolerances, and sampling plans for receiving.
+184. Built a requirements traceability update — Linked new tests and design changes back to specific requirement IDs.
+185. Estimated reliability using simple models — Applied parts-count or MIL-HDBK methods to approximate mean time between failures.
+186. Checked fastener selection and torque specs — Verified grade, thread engagement, and locking features suit the application.
+187. Added identification labels and markings — Developed label layouts for serial numbers, safety icons, and wiring IDs.
+188. Reviewed enclosure venting and filters — Sized vents and selected filter media to balance cooling and contamination control.
+189. Documented open questions for the client — Compiled a focused list to unblock decisions on features and priorities.
+190. Reworked prototype after discovering interference — Modified features and reprinted or machined parts to clear collisions.
+191. Stood up a continuous integration pipeline for code — Automated builds and lint checks to prevent regressions.
+192. Prepared a maintenance checklist for the prototype — Listed periodic inspections, lubrication points, and firmware updates.
+193. Conducted a design-to-cost review — Identified high-cost drivers and proposed design simplifications or part swaps.
+194. Updated risk register with mitigation status — Closed resolved items and added triggers for new emerging risks.
+195. Built a simplified digital twin for testing — Created a lightweight model to evaluate control logic before hardware changes.
+196. Ran a pilot test with an external user — Observed real usage, captured feedback, and logged issues for triage.
+197. Prepared shipping and handling guidelines — Specified packaging, shock indicators, and handling precautions for transport.
+198. Compiled a bill of process for assembly — Outlined tooling, sequence, and takt time for a consistent build.
+199. Created a spare parts list and lifecycle notes — Identified wear items and listed vendor part numbers with expected lifetimes.
+200. Finalized lessons-learned notes for the team — Captured what worked, what didn’t, and recommendations for future cohorts.

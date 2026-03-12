@@ -1,6 +1,10 @@
 import os
-from d1_client import AsyncD1Client
 from typing import Optional
+
+import dotenv
+from d1_client import AsyncD1Client
+
+dotenv.load_dotenv()
 
 ACCOUNT_ID = os.getenv("D1_ACCOUNT_ID")
 API_TOKEN = os.getenv("D1_API_TOKEN")
@@ -145,3 +149,29 @@ async def get_activity_annotations() -> list[dict]:
     except Exception as e:
         print(f"Error fetching activity annotations: {e}")
         return []
+async def get_label_stats() -> dict:
+    """
+    Return statistics about labeled and unlabeled activities.
+    """
+    sql = """
+        SELECT 
+            COUNT(*) as total,
+            SUM(CASE WHEN HCD_Space IS NOT NULL AND HCD_Space != '' THEN 1 ELSE 0 END) as labeled
+        FROM labels
+    """
+    try:
+        result = await client.query_db(db_id=DATABASE_ID, sql=sql)
+        if result.success and result.results:
+            stats = result.results[0].get("results", [])[0]
+            total = stats.get("total") or 0
+            labeled = stats.get("labeled") or 0
+            unlabeled = total - labeled
+            return {
+                "total": total,
+                "labeled": labeled,
+                "unlabeled": unlabeled
+            }
+        return {"total": 0, "labeled": 0, "unlabeled": 0}
+    except Exception as e:
+        print(f"Error fetching label stats: {e}")
+        return {"total": 0, "labeled": 0, "unlabeled": 0}

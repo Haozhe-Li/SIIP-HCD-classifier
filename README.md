@@ -38,3 +38,34 @@ uvicorn gradio_gui:app --host 0.0.0.0 --port 8001
    ```
 
    The response contains the extracted student labels, model classifications, and final evaluation results as JSON.
+
+## Extract Activities from Multi-page Program Report PDF
+
+If your PDF has one program report per page, first extract all `Activity 1..n` items page-by-page with LangChain:
+
+```bash
+python data_extract_llm.py extract path/to/reports.pdf --output data/extracted_activities.jsonl
+```
+
+For testing, you can only process first X pages:
+
+```bash
+python data_extract_llm.py extract path/to/reports.pdf --max-pages 5 --output data/extracted_activities.jsonl
+```
+
+- Output format is JSONL (one line per page), for example:
+   - `{"page": 1, "activities": ["...", "..."]}`
+   - `{"page": 2, "activities": []}`
+- Pages without activities are kept as empty lists for robustness.
+
+After reviewing the extracted JSONL, insert non-empty activities into database table `labels(Activity)`:
+
+```bash
+python data_extract_llm.py insert --input data/extracted_activities.jsonl
+```
+
+Make sure the following environment variables are set before DB insertion:
+
+- `D1_ACCOUNT_ID`
+- `D1_API_TOKEN`
+- `D1_DATABASE_ID`

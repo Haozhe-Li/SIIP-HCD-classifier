@@ -122,6 +122,21 @@ Submit a manual label for a specific activity.
   }
   ```
 
+### 6. Label Statistics
+Returns statistics about activity labeling progress, including total activities, number of labeled activities, and number of unlabeled activities.
+
+- **URL**: `/label-stats`
+- **Method**: `GET`
+- **Auth**: None
+- **Response**:
+  ```json
+  {
+    "total": 100,
+    "labeled": 45,
+    "unlabeled": 55
+  }
+  ```
+
 ---
 
 ## Data Models
