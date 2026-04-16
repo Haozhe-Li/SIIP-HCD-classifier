@@ -11,16 +11,20 @@ API_TOKEN = os.getenv("D1_API_TOKEN")
 DATABASE_ID = os.getenv("D1_DATABASE_ID")
 client = AsyncD1Client(account_id=ACCOUNT_ID, api_token=API_TOKEN)
 
+TARGET_ANNOTATIONS = 2
+
 
 async def fetch_unlabeld_activity() -> Optional[dict]:
     """
-    Return 1 unlabeled activity. If there are no unlabeled activities, return None.
+    Return 1 activity that has fewer than TARGET_ANNOTATIONS labels. 
+    If all target quotas are met, return None.
     Returns a dictionary with 'rowid' and 'Activity' fields.
     """
-    sql = """
-        SELECT rowid, Activity 
+    sql = f"""
+        SELECT MIN(rowid) as rowid, Activity 
         FROM labels
-        WHERE HCD_Space IS NULL OR HCD_Space = '' 
+        GROUP BY Activity
+        HAVING SUM(CASE WHEN HCD_Space IS NOT NULL AND HCD_Space != '' THEN 1 ELSE 0 END) < {TARGET_ANNOTATIONS}
         LIMIT 1
     """
 
@@ -151,20 +155,27 @@ async def get_activity_annotations() -> list[dict]:
         return []
 async def get_label_stats() -> dict:
     """
-    Return statistics about labeled and unlabeled activities.
+    Return statistics about labeled and unlabeled activities based on TARGET_ANNOTATIONS.
     """
-    sql = """
+    sql = f"""
+        WITH ActivityCounts AS (
+            SELECT 
+                Activity,
+                SUM(CASE WHEN HCD_Space IS NOT NULL AND HCD_Space != '' THEN 1 ELSE 0 END) as label_count
+            FROM labels
+            GROUP BY Activity
+        )
         SELECT 
-            COUNT(*) as total,
-            SUM(CASE WHEN HCD_Space IS NOT NULL AND HCD_Space != '' THEN 1 ELSE 0 END) as labeled
-        FROM labels
+            COUNT(*) * {TARGET_ANNOTATIONS} as total,
+            SUM(CASE WHEN label_count >= {TARGET_ANNOTATIONS} THEN {TARGET_ANNOTATIONS} ELSE label_count END) as labeled
+        FROM ActivityCounts
     """
     try:
         result = await client.query_db(db_id=DATABASE_ID, sql=sql)
         if result.success and result.results:
             stats = result.results[0].get("results", [])[0]
-            total = stats.get("total") or 0
-            labeled = stats.get("labeled") or 0
+            total = int(stats.get("total") or 0)
+            labeled = int(stats.get("labeled") or 0)
             unlabeled = total - labeled
             return {
                 "total": total,

@@ -1,0 +1,201 @@
+rowid,Activity,HCD_Space,HCD_Subspace,Reason,Annotator
+1,Refined the project problem statement — Rewrote the problem description to better capture the technical needs and measurable outcomes.,SYNTHESIZE,Define,Redefining the problem,Taylor
+2,Met with the client to clarify requirements — Asked targeted engineering questions to fill in missing specifications or constraints.,UNDERSTAND,Empathize,Understanding client needs to determine constraints,Taylor
+3,"Collected stakeholder feedback — Gathered input from users, technicians, or advisors to understand real-world operational needs.",UNDERSTAND,Empathize,Empathizing with stakeholders to inform the design,Taylor
+4,"Created initial engineering requirements — Drafted early performance requirements such as loads, voltages, flow rates, or tolerances.",SYNTHESIZE,Define,Defining initial design requirements,Taylor
+5,Updated project scope based on new information — Added or removed features after learning more about constraints or user needs.,IDEATE,Narrow Concepts,Improving plan based on new information,taylor
+6,Developed early system goals — Outlined what the final engineered system should achieve functionally and technically.,IDEATE,Plan,Planning goals for final product,Taylor
+7,"Set up team roles and responsibilities — Defined each member’s primary engineering responsibilities (CAD, circuits, software, testing).",SYNTHESIZE,Organize,Organizing roles ,Taylor
+8,"Created the initial Gantt chart — Built a timeline showing design, prototyping, testing, and review milestones.",IDEATE,Plan,Planning the design timeline,Taylor
+9,"Identified project constraints — Documented limits such as cost caps, weight restrictions, power limits, or safety rules.",SYNTHESIZE,Define,Defining constraints,taylor
+10,"Reviewed existing documentation from the client — Analyzed drawings, manuals, or reports to understand current system performance.",UNDERSTAND,Explore,exploring information from client,taylor
+11,Conducted literature review on similar engineering systems — Summarized previous academic or industry approaches.,UNDERSTAND,Explore,Exploring information ,Taylor
+12,"Researched relevant industry standards — Identified applicable ASME, IEEE, ISO, ASTM, or NFPA guidelines.",UNDERSTAND,Explore,gathering information,taylor
+13,"Compared existing commercial solutions — Looked at specs, features, and performance claims of similar products.",UNDERSTAND,Explore,Exploring existing products to inform the design,Taylor
+14,Looked up patents related to our design — Reviewed patent diagrams and claims to understand prior art.,UNDERSTAND,Explore,Researching existing designs,taylor
+15,"Analyzed benchmark product specifications — Compared power, size, capacity, efficiency, and reliability across products.",UNKNOWN,UNKNOWN,"Unclear whether the team is prototyping their own design and doing analysis for an evaluation, or gathering information (understand space)/synthesizing information to plan their design",Taylor
+16,"Investigated material options — Researched suitable metals, polymers, composites, or electronic components.",UNDERSTAND,Explore,Exploring materials to use in design,taylor
+17,Studied similar engineering projects from past years — Identified successful design choices and common pitfalls.,UNDERSTAND,Explore,gathering information for design,taylor
+18,Evaluated cost ranges of comparable systems — Gathered typical pricing for main components and subsystems.,SYNTHESIZE,Interpret,Synthesizing cost range information for design,Taylor
+19,"Reviewed safety regulations applicable to our design — Determined whether OSHA, UL, IEC, or other rules apply.",UNDERSTAND,Explore,Gathering information for design,taylor
+20,"Researched environmental impact considerations — Looked at recyclability, emissions, power consumption, and waste.",UNDERSTAND,Explore,gathering information for design,Taylor
+21,Sketched multiple design concepts — Produced quick mechanical or electrical sketches to visualize alternatives.,IDEATE,Brainstorm,Brainstorming concepts,Taylor
+22,Brainstormed alternative engineering solutions — Generated as many feasible approaches as possible.,IDEATE,Brainstorm,Brainstorming ideas,Taylor
+23,Developed a functional block diagram — Broke the system into major functions and linked them logically.,PROTOTYPE,Engage,"My take on this is that they are documenting their current prototype to better understand its performance. However, this borders on needing more evidence to tell how far along they really are",Taylor
+24,Created use-case scenarios — Outlined how the product will be used in real operational environments.,IMPLEMENT,Sustain,"I think this falls under implementation, as it documents best use for the final product",Taylor
+25,Built a morphological chart for concept combinations — Explored all valid combinations of subsystem options.,IDEATE,Brainstorm,Creating a list of all possible combinations leads to new ideas. It's thinking about the possibilities.,Matt
+26,Generated rough CAD sketches — Created early 3D shapes to evaluate layout ideas and geometry.,IDEATE,Brainstorm,Brainstorming layout,Taylor
+27,"Proposed preliminary subsystem layouts — Organized sensors, motors, circuits, or components on a rough system layout.",IDEATE,Propose,Proposing layouts,Taylor
+28,Discussed feasibility with faculty advisors — Presented high-level concepts and received expert critique.,IDEATE,Narrow Concepts,My take on this is that they're using the feedback to narrow their design focus,Taylor
+29,"Identified potential risks in early concepts — Listed failure points, difficult integrations, or unreliable assumptions.",IDEATE,Plan,This seems to be part of the planning phase- identifying weaknesses before moving forward,Taylor
+30,Narrowed concepts to a top set for evaluation — Selected the most promising alternatives for deeper analysis.,IDEATE,Narrow Concepts,Narrowing concepts to determine evaluation plan,Taylor
+31,Built a concept selection matrix — Compared the top alternatives using weighted criteria.,IDEATE,Narrow Concepts,Already have alternatives and now providing a method to select which one is most viable. ,Matt
+32,"Evaluated manufacturability of each concept — Assessed how easy each concept is to machine, print, or assemble.",IDEATE,Narrow Concepts,The team seems to be preparing to prototype components,Taylor
+33,Analyzed cost estimates for major alternatives — Calculated approximate subsystem and total system costs.,PROTOTYPE,Evaluate,"The team is considering alternatives to the solution, which is part of the evaluation process of prototyping",Taylor
+34,Assessed engineering feasibility of proposed concepts — Checked whether the design can meet required performance levels.,IDEATE,Narrow Concepts,"This is likely ideation, as students are determing whether the design is viable for moving forward",Taylor
+35,"Compared performance trade-offs — Evaluated speed vs. cost, size vs. strength, accuracy vs. complexity.",SYNTHESIZE,Interpret,I think the team is using information that they gathered to determine the performance metrics they need to prioritze,Taylor
+36,Met with the client to present concept options — Received approval or feedback on engineering direction.,PROTOTYPE,Iterate,Using feedback to continue process,Taylor
+37,Gathered advisor feedback on technical direction — Incorporated faculty suggestions into updated concepts.,PROTOTYPE,Iterate,Using feedback to iterate on design,Taylor
+38,Updated concept diagrams — Improved or corrected earlier sketches and diagrams based on feedback.,PROTOTYPE,Iterate,Improving diagrams based on feedback,Taylor
+39,Selected final design direction — Chose the concept the team will carry forward to detailed design.,IDEATE,Narrow Concepts,Narrowed plan for finalized design direction,Taylor
+40,Documented rationale for concept selection — Wrote an explanation supporting the final choice using data.,IMPLEMENT,Develop,This document justifies final design decisions,Taylor
+41,Created a detailed system architecture diagram — Mapped all subsystems and their interactions.,UNKNOWN,UNKNOWN,"This could be ideating, where they're planning out the design system to prototype. It could also be synthesizing, where they're using their preliminary info to develop a potential architecture diagram that will be refined during brainstorming. Or, they may be evaluating their prototype. We need to know how deep they are in their process",Taylor
+42,Defined subsystem boundaries — Specified what each subsystem is responsible for and what it is not.,UNKNOWN,UNKNOWN,This could be planning or synthesizing- more evidence would help determine where the team is in the design process,Taylor
+43,"Developed the interface specification between subsystems — Documented mechanical mounts, electrical connections, and communication protocols.",PROTOTYPE,Evaluate,evaluating how subsystems work together,Taylor
+44,Produced a preliminary bill of materials (BOM) — Built a list of parts including estimated costs and sources.,SYNTHESIZE,Organize,Organizing preliminary design information,taylor
+45,Estimated overall system cost — Aggregated subsystem costs into a full project-level estimate.,IDEATE,Plan,Planning the cost of developing their full design,Taylor
+46,Updated the system block diagram — Refined signal flows and function groupings.,PROTOTYPE,Iterate,Iterating design diagram,taylor
+47,Identified required sensors/actuators — Selected candidate components based on required ranges and accuracy.,IDEATE,Plan,Planning components to use,taylor
+48,"Outlined control system requirements — Defined feedback loops, sampling rates, and control logic.",IDEATE,Plan,Planning software design,Taylor
+49,"Calculated high-level performance estimates — Estimated forces, power consumption, speeds, or output levels.",IDEATE,Brainstorm,Same reasoning as for the fluid flow calculation task,Taylor
+50,Conducted preliminary FMEA — Listed potential failure modes and assessed severity and likelihood.,IDEATE,Plan,The FMEA should be the precursor to building and testing a prototype,Taylor
+51,Developed detailed CAD models — Produced full 3D part models with realistic geometry.,PROTOTYPE,(Re)Create,Created models,Taylor
+52,Ran preliminary stress calculations — Evaluated loads using hand calculations or simple FEA.,PROTOTYPE,Evaluate,Evaluating performance,Taylor
+53,"Designed preliminary circuits — Drafted schematics showing power paths, sensors, and signal processing.",PROTOTYPE,(Re)Create,Designing components,Taylor
+54,Developed a wiring diagram — Created a map of all electrical connections in the system.,PROTOTYPE,Engage,Same as the previous task with the block diagram,Taylor
+55,Created a rough PCB layout — Designed a board outline and arranged components.,PROTOTYPE,(Re)Create,Designing a component,Taylor
+56,Built MATLAB/Simulink models — Simulated system dynamics or control loops.,PROTOTYPE,Evaluate,The team seems to be building and testing software for their design.,Taylor
+57,Designed initial control algorithms — Wrote pseudocode or flowcharts for system behavior.,PROTOTYPE,(Re)Create,Designing algorithm prototype,taylor
+58,Modeled thermal loads — Estimated heat generation and necessary cooling approaches.,IDEATE,Brainstorm,Using models to brainstorm approaches,Taylor
+59,Calculated fluid flow or pressure requirements — Applied basic fluid mechanics to design piping or pumps.,IDEATE,Brainstorm,This could fit a couple different spaces but in my opinion the best fit is ideate. The team is determining the requirements that will guide their design. I'm going to assume they're doing this using information they gathered earlier in the process,Taylor
+60,Selected materials and components based on calculations — Justified choices using engineering properties.,IDEATE,Plan,Planning materials,Taylor
+61,3D printed prototype parts — Produced low-cost physical models to verify geometry.,PROTOTYPE,Evaluate,Creating prototypes fits the prototype space. Verifying geometry is an evaluation of the parts,Taylor
+62,Machined or fabricated simple components — Created metal or plastic parts using shop tools.,PROTOTYPE,(Re)Create,Developing components,Taylor
+63,Soldered prototype circuits — Built early boards for testing signals and connections.,PROTOTYPE,(Re)Create,creating early prototypes,Taylor
+64,Assembled a breadboard circuit — Prototyped electronic functionality quickly.,PROTOTYPE,(Re)Create,Developed a prototype to test a concept,Taylor
+65,Set up test rigs for experiments — Built fixtures or mounts to support repeatable testing.,PROTOTYPE,Evaluate,Setting up rigs to evaluate components,taylor
+66,Built first mechanical prototype — Created an early version of structural or moving parts.,PROTOTYPE,(Re)Create,Built an early prototype,Taylor
+67,Developed prototype firmware — Wrote initial code for reading sensors or driving actuators.,PROTOTYPE,(Re)Create,Designing software,Taylor
+68,"Created early software UI — Implemented basic screens, control panels, or visualization tools.",PROTOTYPE,(Re)Create,Designed UI for prototype,Taylor
+69,Manufactured a second iteration of prototype parts — Corrected earlier geometry or fit problems.,PROTOTYPE,Iterate,Iterating components,taylor
+70,Performed basic fit-checks on assembled modules — Verified that parts interface correctly.,PROTOTYPE,Evaluate,Evaluating performance,Taylor
+71,"Wrote a test plan — Documented what tests will be done, how, and why.",IDEATE,Plan,Planning tests to perform,Taylor
+72,Built a test procedure for a subsystem — Created step-by-step instructions so results are repeatable.,PROTOTYPE,Evaluate,Developed test procedure,Taylor
+73,"Set up instrumentation for data collection — Configured sensors, DAQs, oscilloscopes, or logging software.",PROTOTYPE,Evaluate,Collecting data for evaluation,Taylor
+74,Performed load or stress tests — Measured structural or mechanical capacity under load.,PROTOTYPE,Evaluate,Testing performance,Taylor
+75,"Measured electrical performance — Checked voltages, currents, noise levels, or signal integrity.",PROTOTYPE,Evaluate,Evaluating performance,Taylor
+76,"Ran motion tests on mechanical components — Observed actuation speed, friction, or alignment.",PROTOTYPE,Evaluate,Evaluating performance,Taylor
+77,Conducted usability testing with sample users — Asked representative users to try the prototype.,PROTOTYPE,Evaluate,"Even though users are involved, this is still in the prototyping phase as the testing will lead to iteration",Taylor
+78,Recorded test data for analysis — Stored measurements in spreadsheets or databases.,SYNTHESIZE,Organize,Organizing data,taylor 
+79,Identified failure modes from test results — Found weak points or unexpected behaviors.,PROTOTYPE,Evaluate,Evaluating weaknesses,Taylor
+80,Updated design based on test findings — Made revisions to improve performance or reliability.,PROTOTYPE,Iterate,Improving design,taylor
+81,"Integrated mechanical components — Assembled moving parts, frames, mounts, or enclosures.",PROTOTYPE,(Re)Create,Assembling design components,taylor
+82,"Connected sensors to the microcontroller — Set up wiring, connectors, and pin assignments.",PROTOTYPE,(Re)Create,Building the prototype,Taylor
+83,Loaded and tested firmware on the prototype — Uploaded code and checked sensor readings or actuator outputs.,PROTOTYPE,Evaluate,Testing components,taylor
+84,Merged hardware and software subsystems — Connected physical components to code running on the controller or PC.,PROTOTYPE,(Re)Create,Assembling components,taylor
+85,"Debugged integration issues — Fixed miswiring, incorrect assumptions, or code errors.",PROTOTYPE,Evaluate,Debugging performance errors,Taylor
+86,"Verified electrical connections and signal integrity — Checked continuity, noise, and power stability.",PROTOTYPE,Evaluate,Evaluating performance,Taylor
+87,Calibrated sensors and actuators — Performed procedures to ensure correct readings or motions.,PROTOTYPE,(Re)Create,The team seems to be working with design components,Taylor
+88,Updated wiring or routing after integration problems — Rerouted cables or changed component placement.,PROTOTYPE,Iterate,Iterated design components,Taylor
+89,Conducted full-system dry run — Operated the system without load or under safe conditions.,PROTOTYPE,Evaluate,Testing system performance,Taylor
+90,"Documented integration progress — Wrote down findings, problems, and next steps.",IMPLEMENT,Develop,I think this sort of documentation supports future replication,taylor
+91,"Updated weekly engineering notebook entries — Documented work completed, results, and challenges.",UNDERSTAND,Reflect,Reflecting on process,Taylor
+92,"Revised design documentation — Updated drawings, schematics, or models after changes.",PROTOTYPE,Iterate,Iterating design documents,Taylor
+93,"Prepared slides for weekly meetings — Created visuals showing data, models, and progress.",SYNTHESIZE,Debrief,Debriefing progress,Taylor
+94,Wrote a progress report for the team — Summarized tasks completed and planned work.,UNDERSTAND,Reflect,Reflecting on process,taylor
+95,Met with advisors for design review — Presented updates and received technical feedback.,PROTOTYPE,Iterate,Team is using feedback to improve design,taylor
+96,"Submitted updated CAD or code to repository — Uploaded revisions to GitHub, OneDrive, or a shared drive.",SYNTHESIZE,Organize,Organizing code,taylor
+97,Updated risk register — Added new risks or revised likelihood/severity ratings.,SYNTHESIZE,Interpret,Informing risk,Taylor
+98,Collected and summarized teammate tasks — Compiled individual contributions into a team-level report.,SYNTHESIZE,Debrief,"The team is debriefing their work so far. If they were delivering to stakeholders, this might be considered implementation. However, we don't have evidence that that has happened",Taylor
+99,Prepared material for Preliminary Design Review (PDR) — Organized system-level design documentation and slides.,PROTOTYPE,Evaluate,Same as CDR reasoning,Taylor
+100,"Prepared material for Critical Design Review (CDR) — Created detailed design evidence including calculations, drawings, and test data.",PROTOTYPE,Evaluate,"This process evaluates the current design so that it can be improved (not the final design presentation, which could be considered implementation)",taylor
+101,Optimized CAD models for reduced material usage — Reduced wall thicknesses and added ribs or fillets while confirming safety factors with quick FEA checks.,PROTOTYPE,Iterate,Improving CAD models,Taylor
+102,Reviewed tolerance analysis for key components — Updated tolerance stack-ups and revisited fits to ensure assembly remains robust under worst-case conditions.,SYNTHESIZE,Interpret,Reviewing data to unmderstand feasibility,taylor
+103,"Performed circuit simulations to validate design assumptions — Used SPICE or equivalent tools to check gain, bandwidth, and stability before ordering boards.",IDEATE,Narrow Concepts,Checking assumptions before prototyping components,Taylor
+104,"Updated control system block diagrams — Refined sensor, actuator, and feedback connections to reflect the current architecture.",PROTOTYPE,Iterate,Improving diagrams,Taylor
+105,Adjusted actuator selection based on torque analysis — Compared datasheets and recalculated stall/continuous torque margins for expected duty cycles.,PROTOTYPE,Iterate,"The team is making adjustments to an existing design, which fits prototyping and iterating",Taylor
+106,Revised thermal model after updated heat-load assumptions — Recomputed junction temperatures and heatsink requirements using new power estimates.,PROTOTYPE,Iterate,Iterating model using updated information,Taylor
+107,Conducted supplier research for long-lead components — Identified alternatives and documented lead times and minimum order quantities to reduce schedule risk.,IDEATE,Plan,"The team seems to know the components they will need for the design, which means they're planning out how to source these effectively",Taylor
+108,"Completed wiring harness revisions — Shortened runs, added strain relief, and updated labels to improve serviceability and safety.",PROTOTYPE,Iterate,Iterating design for improved performance,Taylor
+109,"Updated PCB routing to reduce interference — Separated analog and digital grounds, tightened return paths, and improved decoupling placement.",PROTOTYPE,Iterate,Iterating on PCB,taylor
+110,"Held internal design review with team — Walked through open issues, captured action items, and recorded decisions in the design log.",SYNTHESIZE,Debrief,Making and documenting decisions regarding process,Taylor
+111,"Produced detailed engineering drawings — Added dimensions, tolerances, GD&T, and notes sufficient for fabrication without ambiguity.",IDEATE,Plan,Using drawings to represent ideas and plan for prototyping,taylor
+112,Created assembly instructions for prototype build — Authored step-by-step procedures with photos and torque specs for repeatable assembly.,IMPLEMENT,Develop,These procedures are likely a deliverable for others to replicate the design,Taylor
+113,Validated sensor accuracy using calibration equipment — Compared readings against a reference instrument and computed calibration coefficients.,PROTOTYPE,Evaluate,Evaluating performance,Taylor
+114,"Bench-tested microcontroller firmware — Verified peripheral drivers, interrupt timing, and error handling on a development board.",PROTOTYPE,Evaluate,Testing the design,Taylor
+115,"Researched IP ratings for enclosure design — Determined sealing, gasket, and venting needs to achieve the target ingress protection level.",UNDERSTAND,Explore,gathering information for design,Taylor
+116,Generated CFD mesh for airflow modeling — Built a clean geometry and verified mesh quality metrics before running simulations.,IDEATE,Plan,Planning CFD process,Taylor
+117,Refined FEA boundary conditions — Adjusted constraints and loads to better reflect real mounting and contact conditions.,PROTOTYPE,Iterate,Iterating on boundary conditions,Taylor
+118,"Prepared parts list for machine shop — Consolidated material specs, quantities, and drawing numbers to streamline fabrication.",PROTOTYPE,(Re)Create,Preparing to machine parts,Taylor\
+119,"Ordered electronic components for prototype — Placed BOM orders, tracked shipment ETAs, and documented substitutions when needed.",IDEATE,Plan,Planning components for prototype,Taylor
+120,Laser-cut prototype panel components — Converted CAD to cut files and validated hole sizes and kerf compensation after fabrication.,PROTOTYPE,(Re)Create,Developing components,Taylor
+121,Reviewed machining tolerances with shop staff — Discussed critical dimensions and finish requirements to prevent rework.,IDEATE,Plan,Planning machining process,Taylor
+122,Implemented version control for simulation files — Organized models and results with clear commit messages and tagged baselines.,PROTOTYPE,Iterate,Organizing results to improve the design,Taylor
+123,"Conducted cost-benefit analysis for different materials — Compared performance, machinability, and cost to select the most economical option that meets requirements.",IDEATE,Plan,The team seems to be using the CBA to plan the best material to use for their design,Taylor
+124,"Performed weldment design calculations — Checked joint design, throat sizes, and residual stress considerations against expected loads.",PROTOTYPE,Evaluate,Evaluating design,taylor
+125,Designed custom test fixture components — Modeled fixtures to constrain parts and enable repeatable measurements during testing.,PROTOTYPE,(Re)Create,Creating parts to test other parts,Taylor
+126,Analyzed system noise sources — Traced EMI/RFI and mechanical vibration pathways and noted mitigation strategies.,PROTOTYPE,Evaluate,"This is most likely a testing phase, which fits into prototyping",Taylor 
+127,Evaluated subsystem redundancy options — Considered backup sensors or failover modes to improve reliability for critical functions.,PROTOTYPE,Evaluate,Evaluating performance,Taylor
+128,Developed calibration routine for embedded system — Scripted a guided procedure that stores offsets and scale factors in nonvolatile memory.,IMPLEMENT,Develop,This is a process for users to implement with the final product,Taylor
+129,Reviewed industry standards for compliance — Mapped requirements to design features and created a gap list for remediation.,SYNTHESIZE,Interpret,Using information to determine compliance needs,taylor
+130,Printed engineering drawings for advisor review — Prepared redline-ready sets and captured feedback for drawing updates.,SYNTHESIZE,Debrief,Debriefing progress,taylor
+131,Updated BOM with supplier lead times — Flagged long-lead items and proposed order dates to protect the build schedule.,IDEATE,Plan,Updating plan to manage schedule,taylor
+132,Measured deflection of prototype under load — Applied known forces and compared measured displacement to analytical predictions.,PROTOTYPE,Evaluate,Evaluating performance,Taylor
+133,Performed time-study on assembly process — Timed each step to identify bottlenecks and opportunities for mistake-proofing.,PROTOTYPE,Evaluate,Evaluating assembly process,taylor
+134,"Completed hazard analysis for prototype testing — Documented pinch points, hot surfaces, and electrical hazards with mitigations.",PROTOTYPE,Evaluate,Evaluating weaknessses,Taylor
+135,Added safety interlocks to design — Incorporated switches and software checks that prevent unsafe operation states.,PROTOTYPE,(Re)Create,"This seems to best fit prototyping because they are adding components to their design. There's not enough evidence to suggest evaluation (which should follow this task), which would mean that they are either creating or iterating. Without evidence of iteration, I selected create as the best fit. *However* this task is borderlining not having enough evidence to evaluate",Taylor
+136,"Integrated wireless communication module — Brought up drivers, paired devices, and verified data throughput and latency.",PROTOTYPE,(Re)Create,Integrating components in system,taylor
+137,"Validated motor driver operation — Checked current limits, thermal behavior, and fault reporting under various loads.",PROTOTYPE,Evaluate,Evaluating performance,Taylor
+138,Rewrote firmware for better timing performance — Optimized ISR priorities and reduced blocking calls to improve responsiveness.,PROTOTYPE,Iterate,Iterating on software,Taylor
+139,"Developed GUI improvements based on user feedback — Simplified workflows, added status indicators, and improved error messages.",PROTOTYPE,Iterate,Using feedback to improve design,Taylor
+140,Validated algorithm behavior using test datasets — Ran recorded data through the code and compared outputs to expected results.,PROTOTYPE,Evaluate,Evaluating behavior,Taylor
+141,"Updated design notebook with new test results — Inserted plots, tables, and interpretation notes tied to requirement IDs.",SYNTHESIZE,Organize,Organizing data findings,Taylor
+142,"Revised power budget calculations — Accounted for worst-case current draw, startup surges, and standby consumption.",PROTOTYPE,Iterate,Iterating design documents,Taylor
+143,Conducted failure-mode experiments on subsystem — Intentionally induced faults to confirm protections and recovery behavior.,PROTOTYPE,Evaluate,Using testing to push design to failure,Taylor
+144,"Created vibration test plan — Defined excitation profiles, instrumentation, and pass/fail criteria for resonance checks.",IDEATE,Plan,Planning testing procedure,taylor
+145,Ran endurance test on mechanical subsystem — Executed extended duty cycles to evaluate wear and thermal stability.,PROTOTYPE,Evaluate,Evaluating performance,taylor
+146,"Analyzed test data in MATLAB — Cleaned datasets, computed statistics, and generated plots to summarize performance.",UNKNOWN,UNKNOWN,This may be prototyping or ideating- more evidence is needed to determine what the group hoped to accomplished with the test data/ where they are in their design process,Taylor
+147,"Created troubleshooting guide for team members — Documented common failure symptoms, root causes, and quick checks.",IMPLEMENT,Develop,"Similar to other documentation deliverables, I think this is something that can be implemented for longterm use and replication",Taylor
+148,"Discussed results in weekly advisor meeting — Presented highlights, open issues, and proposed next steps for approval.",IDEATE,Propose,Proposing next steps in design process,Taylor
+149,"Produced updated layout for enclosure — Adjusted component placement to improve airflow, service access, and cable routing.",PROTOTYPE,Iterate,Improving design,taylor
+150,Designed mounting bracket for internal components — Sized fasteners and checked stiffness to minimize vibration and misalignment.,PROTOTYPE,(Re)Create,Designing component,Taylor
+151,Conducted compliance checklist review — Stepped through applicable clauses and recorded objective evidence for each item.,PROTOTYPE,Evaluate,Evaluating design compliance,Taylor
+152,Reviewed client feedback and made design changes — Tagged change requests and implemented the highest-impact updates first.,PROTOTYPE,Iterate,iterating based on feedback,Taylor
+153,Measured current draw of prototype system — Captured steady-state and transient currents to validate the power supply margin.,PROTOTYPE,Evaluate,Evaluating performance,Taylor
+154,Validated communication between subsystem modules — Exercised message traffic and confirmed error handling across interfaces.,PROTOTYPE,Evaluate,Evaluating subsystems,Taylor
+155,Tested error-handling routines in firmware — Injected simulated faults and confirmed graceful recovery without data loss.,PROTOTYPE,Evaluate,Evaluating software,Taylor
+156,"Replaced faulty prototype components — Diagnosed suspect parts, swapped them, and retested the affected functions.",PROTOTYPE,Iterate,Iterating on design using improved components,taylor
+157,Performed alignment checks on rotating assemblies — Used dial indicators and feeler gauges to minimize runout and misalignment.,PROTOTYPE,Evaluate,Evaluating performance,Taylor
+158,Measured thermal response using infrared camera — Identified hotspots and verified that component temperatures stayed within limits.,PROTOTYPE,Evaluate,Testing performance,Taylor
+159,Updated integration diagram after testing revisions — Reflected rerouted cables and swapped parts in the latest system schematic.,PROTOTYPE,Iterate,Iterated diagram from test results,Talyor
+160,"Prepared data summaries for project documentation — Condensed large datasets into key metrics, tables, and representative plots.",SYNTHESIZE,Organize,Organizing project data,Taylor
+161,"Drafted poster for design exposition — Outlined the problem, approach, results, and impact with clear visuals.",IMPLEMENT,Execute,"As this is likely a final deliverable, I think it's fair to say that they're implementing their product",Taylor
+162,"Recorded demonstration videos for testing — Captured setup, procedure, and outcomes to share with stakeholders asynchronously.",PROTOTYPE,Evaluate,Capturing performance for stakeholders to evaluate,taylor
+163,Fabricated updated prototype components — Implemented design changes and checked compatibility with existing assemblies.,PROTOTYPE,Iterate,Iterated on components,taylor
+164,"Created custom cabling for internal connections — Cut to length, crimped terminals, and applied labels for traceability.",PROTOTYPE,(Re)Create,Designing component,Taylor
+165,"Revised safety documentation for lab testing — Updated SOPs, PPE requirements, and emergency procedures based on new risks.",PROTOTYPE,Iterate,Iterating design documents,Taylor
+166,Completed subsystem acceptance tests — Ran defined checks and documented pass/fail results against requirements.,PROTOTYPE,Evaluate,Testing performance,Taylor
+167,Ran benchmark tests on prototype performance — Compared the system against baseline targets and noted deltas.,PROTOTYPE,Evaluate,Evaluating performance,Taylor
+168,"Installed prototype in testing environment — Mounted the unit, connected services, and verified readiness for trials.",PROTOTYPE,Evaluate,Testing prototype,Taylor
+169,Measured pressure drops in fluid pathways — Instrumented the system and confirmed losses matched the model within tolerance.,PROTOTYPE,Evaluate,Testing performance,Taylor
+170,Conducted leak tests on enclosures or lines — Applied pressure or vacuum and monitored for decay and soap-bubble indications.,PROTOTYPE,Evaluate,Testing performance,Taylor
+171,Balanced rotating components — Applied trial weights and used a balancer to reduce vibration to acceptable levels.,PROTOTYPE,(Re)Create,Creating a prototype,Taylor
+172,"Cleaned and organized lab bench for efficiency — Labeled bins, routed cables, and set ESD protection for safer work.",SYNTHESIZE,Organize,"In my opinion, this borders on a task that doesn't count as part of the design process. However, because they're preparing to work in the lab, I think it fits the organize process",Taylor
+173,"Built a small-scale mock-up to test ergonomics — Checked reach, visibility, and access for maintenance tasks.",PROTOTYPE,Evaluate,Used a model to test performance,Taylor
+174,Validated sensor linearity across operating range — Collected calibration points and computed regression error metrics.,PROTOTYPE,Evaluate,Evaluating performance,Taylor
+175,"Carried out code review with teammates — Examined logic, naming, and edge cases; documented findings in the repo.",SYNTHESIZE,Debrief,This seems to be a synthesis process although further evidence could clarify that they're actually prototyping,Taylor
+176,Implemented logging and telemetry in firmware — Added timestamped events and ring buffers to aid future debugging.,PROTOTYPE,Iterate,Improving software,Taylor
+177,"Refactored software modules for clarity — Split complex functions, added unit tests, and improved documentation.",PROTOTYPE,Iterate,Iterating on current design,Taylor
+178,Created unit tests for control algorithms — Tested boundary conditions and failure modes using simulated inputs.,PROTOTYPE,Evaluate,Testing performance,Taylor
+179,"Assessed manufacturability with DFM checklist — Reviewed features prone to warpage, tool access, and unnecessary complexity.",PROTOTYPE,Evaluate,Evaluating the design's features for implementation,Taylor
+180,"Updated 3D print settings for strength and accuracy — Tuned infill, layer height, and orientation; validated dimensions post-print.",PROTOTYPE,Iterate,Iterating settings,taylor
+181,"Negotiated quotes with vendors — Requested revisions on pricing and lead time, and documented final terms.",IDEATE,Plan,Planning design cost,taylor
+182,Qualified alternate suppliers for risk mitigation — Compared quality history and requested samples to diversify sourcing.,IDEATE,Plan,Planning materials sources,Taylor
+183,"Created acceptance criteria for incoming parts — Defined inspection points, tolerances, and sampling plans for receiving.",IDEATE,Plan,Planning process for incoming parts,Taylor
+184,Built a requirements traceability update — Linked new tests and design changes back to specific requirement IDs.,PROTOTYPE,Evaluate,Evaluating iterations ,Taylor
+185,Estimated reliability using simple models — Applied parts-count or MIL-HDBK methods to approximate mean time between failures.,PROTOTYPE,Evaluate,Evaluating reliability,Taylor
+186,"Checked fastener selection and torque specs — Verified grade, thread engagement, and locking features suit the application.",IDEATE,Plan,They seem to be planning the selections for their design (as opposed to testing the design they're building),Taylor
+187,"Added identification labels and markings — Developed label layouts for serial numbers, safety icons, and wiring IDs.",UNKNOWN,UNKNOWN,"There is not enough evidence here to determine which space the team may have been in. Labeling could be organizing (i.e., synthesis), or it could be part of the ideation or prototyping process",Taylor
+188,Reviewed enclosure venting and filters — Sized vents and selected filter media to balance cooling and contamination control.,IDEATE,Narrow Concepts,selecting components for design based on requirements,taylor
+189,Documented open questions for the client — Compiled a focused list to unblock decisions on features and priorities.,SYNTHESIZE,Debrief,"My take is that these questions can be used to identify design decisions and next steps, which likely means that the team is synthesizing current information and identifying what they still need",Taylor
+190,Reworked prototype after discovering interference — Modified features and reprinted or machined parts to clear collisions.,PROTOTYPE,Iterate,Iterating prototype based on performance,taylor
+191,Stood up a continuous integration pipeline for code — Automated builds and lint checks to prevent regressions.,PROTOTYPE,(Re)Create,Creating integration pipeline,taylor
+192,"Prepared a maintenance checklist for the prototype — Listed periodic inspections, lubrication points, and firmware updates.",IMPLEMENT,Sustain,I consider this to be a deliverable to help users maintain the design over time,taylor
+193,Conducted a design-to-cost review — Identified high-cost drivers and proposed design simplifications or part swaps.,IDEATE,Propose,Proposing design changes,Taylor
+194,Updated risk register with mitigation status — Closed resolved items and added triggers for new emerging risks.,SYNTHESIZE,Interpret,Informing risk,Taylor
+195,Built a simplified digital twin for testing — Created a lightweight model to evaluate control logic before hardware changes.,PROTOTYPE,Evaluate,Developing testing process,Taylor
+196,"Ran a pilot test with an external user — Observed real usage, captured feedback, and logged issues for triage.",PROTOTYPE,Evaluate,User testing,Taylor
+197,"Prepared shipping and handling guidelines — Specified packaging, shock indicators, and handling precautions for transport.",IMPLEMENT,Execute,I'm interpreting this as preparation for the final product,taylor
+198,"Compiled a bill of process for assembly — Outlined tooling, sequence, and takt time for a consistent build.",IMPLEMENT,Develop,The bill of process helps others replicate the team's work,Taylor
+199,Created a spare parts list and lifecycle notes — Identified wear items and listed vendor part numbers with expected lifetimes.,IDEATE,Plan,Planning wear items and how to source replacements,Taylor
+200,"Finalized lessons-learned notes for the team — Captured what worked, what didn’t, and recommendations for future cohorts.",IMPLEMENT,Sustain,Making recommendations for sustaining the design,Taylor
