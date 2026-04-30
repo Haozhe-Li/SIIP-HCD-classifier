@@ -1,6 +1,7 @@
 import asyncio
 import os
 import sys
+import time
 
 from dotenv import load_dotenv
 
@@ -65,6 +66,22 @@ def calculate_metrics(true_sets, pred_sets):
     return precision, recall, f1, tp, fp, fn
 
 
+def calculate_latency_stats(latencies: list[float]) -> dict:
+    if not latencies:
+        return {}
+    latencies.sort()
+    n = len(latencies)
+    return {
+        "avg": sum(latencies) / n,
+        "min": latencies[0],
+        "max": latencies[-1],
+        "p50": latencies[min(int(n * 0.50), n - 1)],
+        "p90": latencies[min(int(n * 0.90), n - 1)],
+        "p95": latencies[min(int(n * 0.95), n - 1)],
+        "p99": latencies[min(int(n * 0.99), n - 1)],
+    }
+
+
 async def main():
     print("Fetching labeled activities from D1...")
     rows = await fetch_labeled_activities(limit=100)
@@ -91,7 +108,24 @@ async def main():
 
     print("\n--- Running AI Classifier (ProcessingFewShot) ---")
     processor = ProcessingFewShot()
-    llm_labels = await processor.aclassify_table(student_data)
+
+    sem = asyncio.Semaphore(4)
+    latencies = []
+
+    async def classify_with_latency(entry):
+        async with sem:
+            req_start = time.time()
+            res = await processor.aclassify_activity(entry.activity)
+            req_end = time.time()
+            latencies.append(req_end - req_start)
+            return res
+
+    start_time = time.time()
+    tasks = [classify_with_latency(entry) for entry in student_data.tables]
+    llm_labels = await asyncio.gather(*tasks)
+    total_time = time.time() - start_time
+
+    latency_stats = calculate_latency_stats(latencies)
 
     true_spaces = [set(s.HCD_Spaces) for s in student_data.tables]
     pred_spaces = [set(p.HCD_Spaces) for p in llm_labels]
@@ -158,6 +192,17 @@ async def main():
     report_lines.append(f"  Precision: {ssp_p:.4f}")
     report_lines.append(f"  Recall:    {ssp_r:.4f}")
     report_lines.append(f"  F1 Score:  {ssp_f1:.4f}")
+
+    if latency_stats:
+        report_lines.append("\n--- Latency & Performance ---")
+        report_lines.append(f"Total Pipeline Time: {total_time:.2f} seconds")
+        report_lines.append(f"Average Request Latency: {latency_stats['avg']:.2f}s")
+        report_lines.append(f"Min Latency: {latency_stats['min']:.2f}s")
+        report_lines.append(f"Max Latency: {latency_stats['max']:.2f}s")
+        report_lines.append(f"P50 Latency: {latency_stats['p50']:.2f}s")
+        report_lines.append(f"P90 Latency: {latency_stats['p90']:.2f}s")
+        report_lines.append(f"P95 Latency: {latency_stats['p95']:.2f}s")
+        report_lines.append(f"P99 Latency: {latency_stats['p99']:.2f}s")
 
     report_text = "\n".join(report_lines)
 

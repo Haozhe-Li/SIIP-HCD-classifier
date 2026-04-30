@@ -46,11 +46,12 @@ class LLM_HCD_Label(BaseModel):
 
     activity: str = Field(..., description="The Content in the Activity column")
     HCD_Spaces: list[str] = Field(
-        ..., description="The Content in the corresponding activity's HCD Space column"
+        ..., 
+        description="MUST be exactly ONE of: ['understand', 'synthesize', 'ideate', 'prototype', 'implement']"
     )
     HCD_Subspaces: list[str] = Field(
         ...,
-        description="The Content in the corresponding activity's HCD Subspace column",
+        description="MUST be exactly ONE of: ['explore', 'observe', 'empathize', 'reflect', 'debrief', 'organize', 'interpret', 'define', 'brainstorm', 'propose', 'plan', 'narrow concepts', 'create', 'engage', 'evaluate', 'iterate', 'support', 'sustain', 'evolve', 'execute']",
     )
 
 
