@@ -20,9 +20,12 @@ from core.utils import KNOWN_SPACES, KNOWN_SUBSPACES, normalize_list
 
 def load_few_shot_examples() -> str:
     """Loads one example per subspace from the exported CSV."""
-    csv_path = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "all_annotated_data.csv")
+    csv_path = os.path.join(
+        os.path.dirname(os.path.dirname(os.path.abspath(__file__))),
+        "all_annotated_data.csv",
+    )
     examples_by_subspace = {}
-    
+
     if not os.path.exists(csv_path):
         print(f"Warning: Few-shot CSV not found at {csv_path}")
         return ""
@@ -32,17 +35,31 @@ def load_few_shot_examples() -> str:
         for row in reader:
             raw_spaces = row.get("HCD_Space", "")
             raw_subspaces = row.get("HCD_Subspace", "")
-            
-            spaces = [x.strip() for x in raw_spaces.replace(" and ", ",").replace(" & ", ",").split(",") if x.strip()]
-            subspaces = [x.strip() for x in raw_subspaces.replace(" and ", ",").replace(" & ", ",").split(",") if x.strip()]
-            
+
+            spaces = [
+                x.strip()
+                for x in raw_spaces.replace(" and ", ",").replace(" & ", ",").split(",")
+                if x.strip()
+            ]
+            subspaces = [
+                x.strip()
+                for x in raw_subspaces.replace(" and ", ",")
+                .replace(" & ", ",")
+                .split(",")
+                if x.strip()
+            ]
+
             # Select unambiguous examples with 1 space and 1 subspace
             if len(spaces) == 1 and len(subspaces) == 1:
                 space = spaces[0].lower()
                 subspace = subspaces[0].lower()
-                
+
                 # Filter out unknown labels and only take the first good example for each subspace
-                if space != "unknown" and subspace != "unknown" and subspace not in examples_by_subspace:
+                if (
+                    space != "unknown"
+                    and subspace != "unknown"
+                    and subspace not in examples_by_subspace
+                ):
                     examples_by_subspace[subspace] = row
 
     if not examples_by_subspace:
@@ -53,13 +70,13 @@ def load_few_shot_examples() -> str:
         activity = row["Activity"]
         space = row["HCD_Space"]
         reason = row["Reason"]
-        
-        example_str += f"**Activity**: \"{activity}\"\n"
-        example_str += f"**Classification**:\n- HCD_Spaces: [\"{space.lower()}\"]\n- HCD_Subspaces: [\"{sub}\"]\n"
+
+        example_str += f'**Activity**: "{activity}"\n'
+        example_str += f'**Classification**:\n- HCD_Spaces: ["{space.lower()}"]\n- HCD_Subspaces: ["{sub}"]\n'
         if reason:
             example_str += f"**Reasoning**: {reason}\n"
         example_str += "---\n"
-        
+
     return example_str
 
 
@@ -73,7 +90,7 @@ class ProcessingFewShot:
         Sets up the chat model using the default configuration and binds it to a structured output schema
         (`LLM_HCD_Label`) for consistent activity classification results. Also loads few-shot examples.
         """
-        self._model = init_chat_model(DEFAULT_MODEL)
+        self._model = DEFAULT_MODEL
         self.bound_model = self._model.with_structured_output(LLM_HCD_Label)
         self.few_shot_examples = load_few_shot_examples()
 

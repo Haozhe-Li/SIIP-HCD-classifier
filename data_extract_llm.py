@@ -32,6 +32,7 @@ Rules:
 - Ignore all non-activity sections.
 """
 
+
 # Utility: Parse engineering_weekly_activities_expanded.txt and insert all activities into D1
 def insert_txt_activities_to_db(txt_path: str) -> dict[str, int | str]:
     """
@@ -41,6 +42,7 @@ def insert_txt_activities_to_db(txt_path: str) -> dict[str, int | str]:
     from database.insert_data import insert_activities
     import re
     import os
+
     if not os.path.exists(txt_path):
         raise FileNotFoundError(f"File not found: {txt_path}")
 
@@ -91,9 +93,7 @@ def _normalize_activity(activity: str) -> str:
     return " ".join(activity.split()).strip()
 
 
-def _extract_activities_from_single_page(
-    extraction_model, page_text: str
-) -> list[str]:
+def _extract_activities_from_single_page(extraction_model, page_text: str) -> list[str]:
     if not page_text:
         return []
 
@@ -121,7 +121,7 @@ def _extract_activities_from_single_page(
 def extract_activities_from_pdf(
     pdf_path: str, max_pages: int | None = None
 ) -> list[ProgramReportPageActivities]:
-    model = init_chat_model(PARSING_MODEL)
+    model = PARSING_MODEL
     extraction_model = model.with_structured_output(ProgramReportActivities)
 
     if not os.path.exists(pdf_path):
@@ -131,7 +131,9 @@ def extract_activities_from_pdf(
 
     with fitz.open(pdf_path) as document:
         total_pages = len(document)
-        pages_to_process = total_pages if max_pages is None else min(max_pages, total_pages)
+        pages_to_process = (
+            total_pages if max_pages is None else min(max_pages, total_pages)
+        )
 
         for page_index, page in enumerate(document, start=1):
             if page_index > pages_to_process:
@@ -186,7 +188,7 @@ def extract_activities_to_jsonl_incremental(
     if not os.path.exists(pdf_path):
         raise FileNotFoundError(f"File not found: {pdf_path}")
 
-    model = init_chat_model(PARSING_MODEL)
+    model = PARSING_MODEL
     extraction_model = model.with_structured_output(ProgramReportActivities)
 
     output_path = Path(output_file)
@@ -197,7 +199,9 @@ def extract_activities_to_jsonl_incremental(
 
     with fitz.open(pdf_path) as document:
         total_pages = len(document)
-        pages_to_process = total_pages if max_pages is None else min(max_pages, total_pages)
+        pages_to_process = (
+            total_pages if max_pages is None else min(max_pages, total_pages)
+        )
 
         with output_path.open("w", encoding="utf-8") as file:
             for page_index, page in enumerate(document, start=1):
@@ -205,7 +209,9 @@ def extract_activities_to_jsonl_incremental(
                     break
 
                 page_text = _extract_page_text(page)
-                cleaned = _extract_activities_from_single_page(extraction_model, page_text)
+                cleaned = _extract_activities_from_single_page(
+                    extraction_model, page_text
+                )
 
                 file.write(
                     json.dumps(
@@ -220,7 +226,9 @@ def extract_activities_to_jsonl_incremental(
                 total_activities += len(cleaned)
 
                 if sleep_seconds > 0:
-                    print(f"Processed page {page_index}/{pages_to_process} with {len(cleaned)} activities. Sleeping for {sleep_seconds} seconds...")
+                    print(
+                        f"Processed page {page_index}/{pages_to_process} with {len(cleaned)} activities. Sleeping for {sleep_seconds} seconds..."
+                    )
                     time.sleep(sleep_seconds)
 
     return {

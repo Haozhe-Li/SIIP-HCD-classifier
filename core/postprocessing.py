@@ -28,7 +28,7 @@ class FinalProcessing:
         Sets up the chat model using the final evaluation configuration and binds it to a structured output schema
         (`Output_Label`) for consistent final activity evaluation results.
         """
-        self._model = init_chat_model(FINAL_EVAL_MODEL)
+        self._model = FINAL_EVAL_MODEL
         self.bound_model = self._model.with_structured_output(Output_Label)
 
     @staticmethod

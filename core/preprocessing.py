@@ -22,7 +22,7 @@ class PreProcessor:
     """A Preprocessor that parses documents and extract information"""
 
     def __init__(self) -> None:
-        model = init_chat_model(DEFAULT_MODEL)
+        model = DEFAULT_MODEL
         self.model_with_structure = model.with_structured_output(List_Student_HCD_Label)
 
     def _parse(self, file_path: str) -> str:
