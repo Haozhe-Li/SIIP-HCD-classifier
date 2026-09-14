@@ -5,6 +5,7 @@ import os
 import tempfile
 from pathlib import Path
 
+import openai
 from fastapi import FastAPI, File, HTTPException, UploadFile
 from pydantic import BaseModel
 
@@ -154,6 +155,8 @@ async def classify_pdf(file: UploadFile = File(...)) -> ClassificationResponse:
         final_labels = await final_processor.afinal_eval(student_labels, llm_labels)
     except (ValueError, RuntimeError) as exc:
         raise HTTPException(status_code=400, detail=str(exc)) from exc
+    except openai.APIError as exc:
+        raise HTTPException(status_code=502, detail=f"OpenAI API error: {exc}") from exc
     finally:
         if temp_path is not None:
             try:
