@@ -62,10 +62,21 @@ class IllinoisChatLLM(SimpleChatModel):
             "retrieval_only": False,
         }
 
-        response = requests.post(
-            self.base_url, headers={"Content-Type": "application/json"}, json=data
-        )
-        response.raise_for_status()
+        try:
+            response = requests.post(
+                self.base_url,
+                headers={"Content-Type": "application/json"},
+                json=data,
+                timeout=120,
+            )
+            response.raise_for_status()
+        except requests.exceptions.RequestException as exc:
+            body = getattr(exc.response, "text", None)
+            message = f"UIUC Chat API request failed: {exc}"
+            if body:
+                message += f" | response body: {body}"
+            raise RuntimeError(message) from exc
+
         return response.json().get("message", "")
 
     @property
